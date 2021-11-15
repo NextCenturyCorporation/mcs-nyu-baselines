@@ -1,6 +1,7 @@
 import glob
 import os
 import random
+import sys
 from typing import List
 
 import cv2
@@ -179,24 +180,22 @@ def make_step_prediction(choice, confidence, heatmap_img=None):
         choice = 1
     if choice == 'implausible':
         choice = 0
-    if heatmap_img:
+    if heatmap_img is not None:
         xy_list = np.argwhere(heatmap_img >= 200)
-        xy_list = [{"x": x, "y": y} for x, y in xy_list]
+        xy_list = [{"x": int(x), "y": int(y)} for x, y in xy_list]
     else:
         xy_list = None
     return {
             "rating": choice,
-            "score": choice,
-            "xy_list": xy_list
+            "score": confidence,
+            "violations_xy_list": xy_list
     }
 
 
-def run_scene(json_path, controller, models, base_path="~/logs", num_steps=60, visualize=False, pred_horizon=3):
+def run_scene(scene_data, controller, models, base_path="~/logs", num_steps=60, visualize=False, pred_horizon=3):
     report = {}
     frame_predictor, posterior, prior, encoder, decoder = models
 
-    scene_data, status = mcs.load_scene_json_file(json_path)
-    #scene_data["history_dir"] = f"{base_path}/log.json"
     output = controller.start_scene(scene_data)
     MOTION_THRESH = 0.0002
 
@@ -279,10 +278,10 @@ def run_scene(json_path, controller, models, base_path="~/logs", num_steps=60, v
                     pts = pts.reshape((-1, 1, 2))
                     cv2.fillPoly(imp_heatmap, [pts], int(255*imp_score))
                 if imp_score > 0.5:
-                    report[step] = make_step_prediction(choice="implausible", confidence=imp_score, heatmap_img=imp_heatmap.copy())
+                    report[step] = make_step_prediction(choice="implausible", confidence=(1 - imp_score), heatmap_img=imp_heatmap.copy())
                     predicted_implausible[step] = True
                 else:
-                    report[step] = make_step_prediction(choice="plausible", confidence=1 - imp_score, heatmap_img=imp_heatmap.copy())
+                    report[step] = make_step_prediction(choice="plausible", confidence=(1 - imp_score), heatmap_img=imp_heatmap.copy())
                     predicted_implausible[step] = False
                 if visualize:
                     cv2.putText(imp_heatmap, str(imp_score), (20, 20), font, fontScale, 128, thickness)
@@ -313,13 +312,12 @@ def run_scene(json_path, controller, models, base_path="~/logs", num_steps=60, v
     controller.end_scene(rating=choice, score=choice, report=report)
 
 
-def main(fname: str):
+def main(scene_data: dict):
     #unity_app_file_path = "PATH_HERE/MCS-AI2-THOR-Unity-App-v0.4.3-linux/MCS-AI2-THOR-Unity-App-v0.4.3.x86_64"
     MCS_CONFIG_FILE_PATH = 'mcs_config.ini'  # NOTE: I ran the tests with option "size: 450". Different sizes might lead to worse results
     #raise AttributeError("Please fill out the unity app executable path and config path")
     controller = mcs.create_controller(config_file_or_dict=MCS_CONFIG_FILE_PATH)
     #controller = mcs.create_controller(unity_app_file_path, config_file_path=MCS_CONFIG_FILE_PATH)
-    # assumes all the steps are 60...can change this if this is not the case at test
     NUMSTEPS = 200
     BATCH_SIZE = 1
     model_path = "trained/SpatioTemporalContinuityTraining4"
@@ -339,7 +337,7 @@ def main(fname: str):
     encoder = saved_model['encoder'].eval().cuda()
     PREDICTION_HORIZON = 3
 
-    run_scene(fname, controller, (frame_predictor, posterior, prior, encoder, decoder), num_steps=NUMSTEPS, visualize=False, pred_horizon=PREDICTION_HORIZON)
+    run_scene(scene_data, controller, (frame_predictor, posterior, prior, encoder, decoder), num_steps=NUMSTEPS, visualize=False, pred_horizon=PREDICTION_HORIZON)
 
 
 if __name__ == '__main__':
@@ -347,6 +345,8 @@ if __name__ == '__main__':
     fontScale = 0.3
     fontColor = (0, 0, 0)
     thickness = 1
-    if len(sys.argv) < 2:
-        sys.exit('Usage: python <script> <json_scene_filename>')
-    main(sys.argv[1])
+    scene_data, status = mcs.load_scene_json_file(sys.argv[1])
+    if status is not None:
+        sys.exit(status)
+    #scene_data["history_dir"] = f"{base_path}/log.json"
+    main(scene_data)

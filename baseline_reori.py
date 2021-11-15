@@ -1,4 +1,5 @@
 import os
+import sys
 import machine_common_sense as mcs
 from glob import glob
 from l2_norm_matrix import calc_l2_norms, inference, min_diag_cyclic_perm
@@ -180,30 +181,26 @@ FLAGS = flags.FLAGS
 flags.DEFINE_string('scene_file', './reori_0001_01.json', 'Path to scene file')
 
 
+def main(scene_data: dict):
+    controller = mcs.create_controller(config_file_or_dict="mcs_config.ini")
 
-def main(scene_file: str):
-    controller = mcs.create_controller(config_file_or_dict="config_level1.ini")
+    objectid = [f for f in scene_data["objects"] if f["type"] =="soccer_ball"][0]["id"]
 
-    with open(scene_file, "rb") as f:
-        data = json.load(f)
-        objectid = [f for f in data["objects"] if f["type"] =="soccer_ball"][0]["id"]
+    output = controller.start_scene(scene_data)
+    agent = baseline_agent(objectid=objectid)
+    for i in range(1000):
+        action, params = agent.step(output) 
+        output = controller.step(action, **params)
+        if agent.state == 8:
+            break
 
-    scene_data, status = mcs.load_scene_json_file(scene_file)
+    controller.end_scene()
 
-    if status is not None:
-        print(status)
-    else:
-        output = controller.start_scene(scene_data)
-        agent = baseline_agent(objectid=objectid)
-        for i in range(1000):
-            action, params = agent.step(output) 
-            output = controller.step(action, **params)
-            if agent.state == 8:
-                break
-
-        controller.end_scene()
 
 if __name__=='__main__':
     if len(sys.argv) < 2:
         sys.exit('Usage: python <script> <json_scene_filename>')
-    main(sys.argv[1])
+    scene_data, status = mcs.load_scene_json_file(sys.argv[1])
+    if status is not None:
+        sys.exit(status)
+    main(scene_data)
