@@ -1,0 +1,77 @@
+{
+  "name": "/home/lol/Hub/NYU-MCS-Baselines/gen_scenes_big/SpatioTemporalContinuityTraining4/eval__0001_01",
+  "version": "2",
+  "ceilingMaterial": "AI2-THOR/Materials/Ceramics/GREYGRANITE",
+  "floorMaterial": "UnityAssetStore/Baby_Room/Models/Materials/wood 1",
+  "wallMaterial": "AI2-THOR/Materials/Ceramics/TexturesCom_BrickRound0044_1_seamless_S",
+  "performerStart": {
+    "position": {
+      "x": 0,
+      "y": 0,
+      "z": -4.5
+    },
+    "rotation": {
+      "y": 0
+    }
+  },
+  "objects": [
+    {
+      "id": "3e490c44-94ca-479a-96c6-f96ffd70b3ce",
+      "type": "cylinder",
+      "mass": 0.6,
+      "positionY": 0.3,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 4.49,
+            "y": 0.3,
+            "z": 2.1500000000000004
+          },
+          "rotation": {
+            "x": 90,
+            "y": 180,
+            "z": 0
+          },
+          "stepBegin": 93,
+          "scale": {
+            "x": 0.6,
+            "y": 0.3,
+            "z": 0.6
+          }
+        }
+      ],
+      "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/blue_1x1"],
+      "forces": [
+        {
+          "stepBegin": 93,
+          "stepEnd": 93,
+          "vector": {
+            "x": -402.0,
+            "y": 0.0,
+            "z": 0.0
+          }
+        }
+      ]
+    }
+  ],
+  "goal": {
+    "category": "intuitive physics",
+    "last_step": 200,
+    "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
+    "description": "",
+    "metadata": {
+      "choose": [
+        "plausible",
+        "implausible"
+      ]
+    }
+  },
+  "evaluationOnly": false,
+  "intuitivePhysics": true,
+  "hypercubeNumber": 1,
+  "sceneNumber": 1,
+  "evaluation": null,
+  "training": true
+}

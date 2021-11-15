@@ -1,0 +1,371 @@
+{
+  "name": "/home/lol/Hub/NYU-MCS-Baselines/gen_scenes_big/ShapeConstancyTraining/eval__0001_01",
+  "version": "2",
+  "ceilingMaterial": "UnityAssetStore/Baby_Room/Models/Materials/wood 1",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+  "wallMaterial": "AI2-THOR/Materials/Ceramics/TexturesCom_BrickRound0044_1_seamless_S",
+  "performerStart": {
+    "position": {
+      "x": 0,
+      "y": 0,
+      "z": -4.5
+    },
+    "rotation": {
+      "y": 0
+    }
+  },
+  "objects": [
+    {
+      "id": "64df01fe-a0a1-48b1-8603-a9dde486d030",
+      "type": "cylinder",
+      "mass": 0.8,
+      "positionY": 0.4,
+      "salientMaterials": ["plastic"],
+      "moveable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -2.0,
+            "y": 6.280000000000001,
+            "z": 3.95
+          },
+          "rotation": {
+            "x": 90,
+            "y": -45,
+            "z": 0
+          },
+          "stepBegin": 82,
+          "scale": {
+            "x": 0.8,
+            "y": 0.4,
+            "z": 0.8
+          }
+        }
+      ],
+      "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color 1"]
+    },
+    {
+      "id": "a637eb2b-0cae-4589-88d7-a899007df2d1",
+      "type": "car_1",
+      "mass": 1.125,
+      "positionY": 0.0,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 2.6500000000000004,
+            "y": 5.460000000000001,
+            "z": 2.9000000000000004
+          },
+          "rotation": {
+            "x": 0,
+            "y": 90,
+            "z": 0
+          },
+          "stepBegin": 82,
+          "scale": {
+            "x": 4.5,
+            "y": 4.5,
+            "z": 4.5
+          }
+        }
+      ],
+      "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/red_1x1"]
+    },
+    {
+      "id": "occluder_wall_faae384b-8d08-4f6c-b8de-0d9c76c5d29c",
+      "type": "cube",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["AI2-THOR/Materials/Wood/WornWood"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1.301775147928994,
+            "y": 0.9,
+            "z": 1
+          },
+          "scale": {
+            "x": 1.2813708498984764,
+            "y": 1.8,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 6,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 23,
+          "stepEnd": 28,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 145,
+          "stepEnd": 150,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "rotates": [
+        {
+          "stepBegin": 7,
+          "stepEnd": 12,
+          "vector": {
+            "x": 15.0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 17,
+          "stepEnd": 22,
+          "vector": {
+            "x": -15.0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 151,
+          "stepEnd": 156,
+          "vector": {
+            "x": 15.0,
+            "y": 0,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "occluder_pole_faae384b-8d08-4f6c-b8de-0d9c76c5d29c",
+      "type": "cylinder",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["AI2-THOR/Materials/Metals/BrushedIron_AlbedoTransparency"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -4.9424605728782325,
+            "y": 0.9,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 90
+          },
+          "scale": {
+            "x": 0.095,
+            "y": 3,
+            "z": 0.095
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 6,
+          "vector": {
+            "x": 0.25,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 23,
+          "stepEnd": 28,
+          "vector": {
+            "x": -0.25,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 145,
+          "stepEnd": 150,
+          "vector": {
+            "x": 0.25,
+            "y": 0,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "occluder_wall_53db0698-0602-4b3d-98fc-f425b8802cb4",
+      "type": "cube",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 3"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 1.9695945945945947,
+            "y": 0.9,
+            "z": 1
+          },
+          "scale": {
+            "x": 1.1147071078420867,
+            "y": 1.8,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 6,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 23,
+          "stepEnd": 28,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 145,
+          "stepEnd": 150,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "rotates": [
+        {
+          "stepBegin": 7,
+          "stepEnd": 12,
+          "vector": {
+            "x": 15.0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 17,
+          "stepEnd": 22,
+          "vector": {
+            "x": -15.0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 151,
+          "stepEnd": 156,
+          "vector": {
+            "x": 15.0,
+            "y": 0,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "occluder_pole_53db0698-0602-4b3d-98fc-f425b8802cb4",
+      "type": "cylinder",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["AI2-THOR/Materials/Metals/BrushedAluminum_Blue"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 5.526948148515638,
+            "y": 0.9,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 90
+          },
+          "scale": {
+            "x": 0.095,
+            "y": 3,
+            "z": 0.095
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 6,
+          "vector": {
+            "x": 0.25,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 23,
+          "stepEnd": 28,
+          "vector": {
+            "x": -0.25,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 145,
+          "stepEnd": 150,
+          "vector": {
+            "x": 0.25,
+            "y": 0,
+            "z": 0
+          }
+        }
+      ]
+    }
+  ],
+  "goal": {
+    "category": "intuitive physics",
+    "last_step": 160,
+    "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
+    "description": "",
+    "metadata": {
+      "choose": [
+        "plausible",
+        "implausible"
+      ]
+    }
+  },
+  "evaluationOnly": false,
+  "intuitivePhysics": true,
+  "hypercubeNumber": 1,
+  "sceneNumber": 1,
+  "evaluation": null,
+  "training": true
+}

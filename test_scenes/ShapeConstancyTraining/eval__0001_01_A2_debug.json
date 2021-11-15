@@ -1,0 +1,1001 @@
+{
+  "name": "/home/lol/Hub/NYU-MCS-Baselines/gen_scenes_big/ShapeConstancyTraining/eval__0001_01",
+  "version": "2",
+  "ceilingMaterial": "UnityAssetStore/Baby_Room/Models/Materials/wood 1",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+  "wallMaterial": "AI2-THOR/Materials/Ceramics/TexturesCom_BrickRound0044_1_seamless_S",
+  "floorColors": [
+    "white"
+  ],
+  "wallColors": [
+    "grey"
+  ],
+  "performerStart": {
+    "position": {
+      "x": 0,
+      "y": 0,
+      "z": -4.5
+    },
+    "rotation": {
+      "y": 0
+    }
+  },
+  "objects": [
+    {
+      "id": "64df01fe-a0a1-48b1-8603-a9dde486d030",
+      "type": "cylinder",
+      "role": "target",
+      "info": ["medium","heavy","red","plastic","cylinder","medium heavy","medium plastic","medium red","medium cylinder","heavy plastic","heavy red","heavy cylinder","plastic red","plastic cylinder","red cylinder","medium heavy red plastic cylinder","target","target"],
+      "mass": 0.8,
+      "positionY": 0.4,
+      "salientMaterials": ["plastic"],
+      "color": [
+        "red"
+      ],
+      "shape": [
+        "cylinder"
+      ],
+      "size": "medium",
+      "dimensions": {
+        "x": 0.8,
+        "y": 0.8,
+        "z": 0.8
+      },
+      "untrainedCategory": false,
+      "untrainedColor": false,
+      "untrainedCombination": false,
+      "untrainedShape": false,
+      "untrainedSize": false,
+      "moveable": true,
+      "offset": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "shows": [
+        {
+          "position": {
+            "x": -2.0,
+            "y": 6.280000000000001,
+            "z": 3.95
+          },
+          "rotation": {
+            "x": 90,
+            "y": -45,
+            "z": 0
+          },
+          "stepBegin": 82,
+          "scale": {
+            "x": 0.8,
+            "y": 0.4,
+            "z": 0.8
+          },
+          "boundingBox": [
+            {
+              "x": -1.9999999999999998,
+              "y": 0,
+              "z": 4.515685424949239
+            },
+            {
+              "x": -1.434314575050762,
+              "y": 0,
+              "z": 3.9500000000000006
+            },
+            {
+              "x": -2.0,
+              "y": 0,
+              "z": 3.3843145750507624
+            },
+            {
+              "x": -2.565685424949238,
+              "y": 0,
+              "z": 3.95
+            }
+          ]
+        }
+      ],
+      "materialCategory": [
+        "intuitive_physics_plastic"
+      ],
+      "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color 1"],
+      "weight": "heavy",
+      "goalString": "medium heavy red plastic cylinder",
+      "enclosedAreas": [],
+      "isAgent": false,
+      "isConfusor": false,
+      "isContainer": false,
+      "isContext": false,
+      "isHome": false,
+      "isKey": false,
+      "isIntuitivePhysicsOccluder": false,
+      "isNonTarget": false,
+      "isObstacle": false,
+      "isOccluder": false,
+      "isStructural": false,
+      "isTarget": true,
+      "isWall": false
+    },
+    {
+      "id": "a637eb2b-0cae-4589-88d7-a899007df2d1",
+      "type": "car_1",
+      "role": "target",
+      "info": ["medium","heavy","red","wood","car","medium heavy","medium wood","medium red","medium car","heavy wood","heavy red","heavy car","wood red","wood car","red car","medium heavy red wood car","target","target"],
+      "mass": 1.125,
+      "positionY": 0.0,
+      "salientMaterials": ["wood"],
+      "color": [
+        "red"
+      ],
+      "shape": [
+        "car"
+      ],
+      "size": "medium",
+      "dimensions": {
+        "x": 0.6300000000000001,
+        "y": 0.2925,
+        "z": 0.33749999999999997
+      },
+      "untrainedCategory": false,
+      "untrainedColor": false,
+      "untrainedCombination": false,
+      "untrainedShape": false,
+      "untrainedSize": false,
+      "moveable": true,
+      "offset": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "shows": [
+        {
+          "position": {
+            "x": 2.6500000000000004,
+            "y": 5.460000000000001,
+            "z": 2.9000000000000004
+          },
+          "rotation": {
+            "x": 0,
+            "y": 90,
+            "z": 0
+          },
+          "stepBegin": 82,
+          "scale": {
+            "x": 4.5,
+            "y": 4.5,
+            "z": 4.5
+          },
+          "boundingBox": [
+            {
+              "x": 2.8187500000000005,
+              "y": 0,
+              "z": 2.5850000000000004
+            },
+            {
+              "x": 2.48125,
+              "y": 0,
+              "z": 2.5850000000000004
+            },
+            {
+              "x": 2.48125,
+              "y": 0,
+              "z": 3.2150000000000003
+            },
+            {
+              "x": 2.8187500000000005,
+              "y": 0,
+              "z": 3.2150000000000003
+            }
+          ]
+        }
+      ],
+      "materialCategory": [
+        "intuitive_physics_block"
+      ],
+      "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/red_1x1"],
+      "weight": "heavy",
+      "goalString": "medium heavy red wood car",
+      "enclosedAreas": [],
+      "isAgent": false,
+      "isConfusor": false,
+      "isContainer": false,
+      "isContext": false,
+      "isHome": false,
+      "isKey": false,
+      "isIntuitivePhysicsOccluder": false,
+      "isNonTarget": false,
+      "isObstacle": false,
+      "isOccluder": false,
+      "isStructural": false,
+      "isTarget": true,
+      "isWall": false
+    },
+    {
+      "id": "occluder_wall_faae384b-8d08-4f6c-b8de-0d9c76c5d29c",
+      "shape": [
+        "wall"
+      ],
+      "size": "huge",
+      "type": "cube",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["AI2-THOR/Materials/Wood/WornWood"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1.301775147928994,
+            "y": 0.9,
+            "z": 1
+          },
+          "scale": {
+            "x": 1.2813708498984764,
+            "y": 1.8,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 6,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 23,
+          "stepEnd": 28,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 145,
+          "stepEnd": 150,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "rotates": [
+        {
+          "stepBegin": 7,
+          "stepEnd": 12,
+          "vector": {
+            "x": 15.0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 17,
+          "stepEnd": 22,
+          "vector": {
+            "x": -15.0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 151,
+          "stepEnd": 156,
+          "vector": {
+            "x": 15.0,
+            "y": 0,
+            "z": 0
+          }
+        }
+      ],
+      "color": [
+        "brown",
+        "intuitive physics occluder"
+      ],
+      "info": ["brown","intuitive physics occluder"],
+      "isAgent": false,
+      "isConfusor": false,
+      "isContainer": false,
+      "isContext": false,
+      "isHome": false,
+      "isKey": false,
+      "isIntuitivePhysicsOccluder": true,
+      "isNonTarget": false,
+      "isObstacle": false,
+      "isOccluder": false,
+      "isStructural": false,
+      "isTarget": false,
+      "isWall": false,
+      "role": "intuitive physics occluder"
+    },
+    {
+      "id": "occluder_pole_faae384b-8d08-4f6c-b8de-0d9c76c5d29c",
+      "shape": [
+        "pole"
+      ],
+      "size": "medium",
+      "type": "cylinder",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["AI2-THOR/Materials/Metals/BrushedIron_AlbedoTransparency"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -4.9424605728782325,
+            "y": 0.9,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 90
+          },
+          "scale": {
+            "x": 0.095,
+            "y": 3,
+            "z": 0.095
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 6,
+          "vector": {
+            "x": 0.25,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 23,
+          "stepEnd": 28,
+          "vector": {
+            "x": -0.25,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 145,
+          "stepEnd": 150,
+          "vector": {
+            "x": 0.25,
+            "y": 0,
+            "z": 0
+          }
+        }
+      ],
+      "color": [
+        "black",
+        "intuitive physics occluder"
+      ],
+      "info": ["black","intuitive physics occluder"],
+      "isAgent": false,
+      "isConfusor": false,
+      "isContainer": false,
+      "isContext": false,
+      "isHome": false,
+      "isKey": false,
+      "isIntuitivePhysicsOccluder": true,
+      "isNonTarget": false,
+      "isObstacle": false,
+      "isOccluder": false,
+      "isStructural": false,
+      "isTarget": false,
+      "isWall": false,
+      "role": "intuitive physics occluder"
+    },
+    {
+      "id": "occluder_wall_53db0698-0602-4b3d-98fc-f425b8802cb4",
+      "shape": [
+        "wall"
+      ],
+      "size": "huge",
+      "type": "cube",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 3"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 1.9695945945945947,
+            "y": 0.9,
+            "z": 1
+          },
+          "scale": {
+            "x": 1.1147071078420867,
+            "y": 1.8,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 6,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 23,
+          "stepEnd": 28,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 145,
+          "stepEnd": 150,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "rotates": [
+        {
+          "stepBegin": 7,
+          "stepEnd": 12,
+          "vector": {
+            "x": 15.0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 17,
+          "stepEnd": 22,
+          "vector": {
+            "x": -15.0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 151,
+          "stepEnd": 156,
+          "vector": {
+            "x": 15.0,
+            "y": 0,
+            "z": 0
+          }
+        }
+      ],
+      "color": [
+        "green",
+        "intuitive physics occluder"
+      ],
+      "info": ["green","intuitive physics occluder"],
+      "isAgent": false,
+      "isConfusor": false,
+      "isContainer": false,
+      "isContext": false,
+      "isHome": false,
+      "isKey": false,
+      "isIntuitivePhysicsOccluder": true,
+      "isNonTarget": false,
+      "isObstacle": false,
+      "isOccluder": false,
+      "isStructural": false,
+      "isTarget": false,
+      "isWall": false,
+      "role": "intuitive physics occluder"
+    },
+    {
+      "id": "occluder_pole_53db0698-0602-4b3d-98fc-f425b8802cb4",
+      "shape": [
+        "pole"
+      ],
+      "size": "medium",
+      "type": "cylinder",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["AI2-THOR/Materials/Metals/BrushedAluminum_Blue"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 5.526948148515638,
+            "y": 0.9,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 90
+          },
+          "scale": {
+            "x": 0.095,
+            "y": 3,
+            "z": 0.095
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 6,
+          "vector": {
+            "x": 0.25,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 23,
+          "stepEnd": 28,
+          "vector": {
+            "x": -0.25,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 145,
+          "stepEnd": 150,
+          "vector": {
+            "x": 0.25,
+            "y": 0,
+            "z": 0
+          }
+        }
+      ],
+      "color": [
+        "blue",
+        "intuitive physics occluder"
+      ],
+      "info": ["blue","intuitive physics occluder"],
+      "isAgent": false,
+      "isConfusor": false,
+      "isContainer": false,
+      "isContext": false,
+      "isHome": false,
+      "isKey": false,
+      "isIntuitivePhysicsOccluder": true,
+      "isNonTarget": false,
+      "isObstacle": false,
+      "isOccluder": false,
+      "isStructural": false,
+      "isTarget": false,
+      "isWall": false,
+      "role": "intuitive physics occluder"
+    }
+  ],
+  "goal": {
+    "category": "intuitive physics",
+    "domainsInfo": {
+      "objects": [],
+      "places": [],
+      "agents": [],
+      "all": []
+    },
+    "sceneInfo": {
+      "primaryType": "passive",
+      "secondaryType": "intuitive physics",
+      "tertiaryType": "shape constancy",
+      "quaternaryType": "action none",
+      "direction": null,
+      "fallDown": true,
+      "moveAcross": false,
+      "sceneSetup": "fall down",
+      "count": {
+        "all": 4,
+        "agent": 0,
+        "confusor": 0,
+        "container": 0,
+        "context": 0,
+        "home": 0,
+        "key": 0,
+        "intuitive_physics_occluder": 2,
+        "non_target": 0,
+        "obstacle": 0,
+        "occluder": 0,
+        "structural": 0,
+        "target": 2,
+        "wall": 0
+      },
+      "present": {
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": true,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "trained": {
+        "any": true,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "trainedCategory": {
+        "any": true,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "trainedColor": {
+        "any": true,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "trainedCombination": {
+        "any": true,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "trainedShape": {
+        "any": true,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "trainedSize": {
+        "any": true,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "untrained": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": false,
+        "wall": false
+      },
+      "untrainedCategory": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": false,
+        "wall": false
+      },
+      "untrainedColor": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": false,
+        "wall": false
+      },
+      "untrainedCombination": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": false,
+        "wall": false
+      },
+      "untrainedShape": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": false,
+        "wall": false
+      },
+      "untrainedSize": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": false,
+        "wall": false
+      },
+      "contained": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": false,
+        "wall": false
+      },
+      "uncontained": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "all": [
+        "passive",
+        "intuitive physics",
+        "shape constancy",
+        "action none",
+        "fall down",
+        "intuitive physics occluder 2",
+        "target 2",
+        "intuitive physics occluder present",
+        "target present",
+        "target trained",
+        "target trained category",
+        "target trained color",
+        "target trained combination",
+        "target trained shape",
+        "target trained size",
+        "target uncontained",
+        "SHAP_A2",
+        "A2"
+      ],
+      "slices": [
+        "object one no change",
+        "object two no change",
+        "object one begins trained yes",
+        "object two begins trained yes"
+      ],
+      "objectOne": "no change",
+      "objectTwo": "no change",
+      "objectOneBeginsTrained": "yes",
+      "objectTwoBeginsTrained": "yes",
+      "id": [
+        "A2"
+      ],
+      "name": "SHAP_A2",
+      "hypercubeId": "SHAP_A2_C28347AC-0AFE-447F-9847-3733285E4B50"
+    },
+    "objectsInfo": {
+      "all": [
+        "heavy",
+        "blue",
+        "wood",
+        "heavy red",
+        "trained color",
+        "uncontained",
+        "trained combination",
+        "heavy cylinder",
+        "wood red",
+        "plastic cylinder",
+        "target",
+        "medium red",
+        "intuitive physics occluder",
+        "plastic red",
+        "brown",
+        "medium plastic",
+        "red car",
+        "red",
+        "green",
+        "wood car",
+        "black",
+        "medium car",
+        "plastic",
+        "heavy plastic",
+        "red cylinder",
+        "cylinder",
+        "medium heavy red plastic cylinder",
+        "medium heavy",
+        "trained category",
+        "trained shape",
+        "medium wood",
+        "trained size",
+        "heavy wood",
+        "medium",
+        "medium cylinder",
+        "medium heavy red wood car",
+        "heavy car",
+        "car"
+      ],
+      "agent": [],
+      "confusor": [],
+      "container": [],
+      "context": [],
+      "home": [],
+      "key": [],
+      "intuitive_physics_occluder": [
+        "brown",
+        "blue",
+        "green",
+        "black"
+      ],
+      "non_target": [],
+      "obstacle": [],
+      "occluder": [],
+      "structural": [],
+      "target": [
+        "heavy",
+        "wood",
+        "heavy red",
+        "trained color",
+        "uncontained",
+        "trained combination",
+        "heavy cylinder",
+        "wood red",
+        "plastic cylinder",
+        "medium red",
+        "plastic red",
+        "medium plastic",
+        "red car",
+        "red",
+        "wood car",
+        "medium car",
+        "plastic",
+        "heavy plastic",
+        "red cylinder",
+        "cylinder",
+        "medium heavy red plastic cylinder",
+        "medium heavy",
+        "trained category",
+        "trained shape",
+        "medium wood",
+        "trained size",
+        "heavy wood",
+        "medium",
+        "medium cylinder",
+        "medium heavy red wood car",
+        "heavy car",
+        "car"
+      ],
+      "wall": []
+    },
+    "answer": {
+      "choice": "plausible"
+    },
+    "last_step": 160,
+    "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
+    "description": "",
+    "metadata": {
+      "choose": [
+        "plausible",
+        "implausible"
+      ]
+    }
+  },
+  "evaluationOnly": false,
+  "intuitivePhysics": true,
+  "hypercubeNumber": 1,
+  "sceneNumber": 1,
+  "evaluation": null,
+  "training": true
+}

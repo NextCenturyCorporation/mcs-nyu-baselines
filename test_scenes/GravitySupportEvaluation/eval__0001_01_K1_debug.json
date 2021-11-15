@@ -1,0 +1,780 @@
+{
+  "name": "/home/lol/Hub/NYU-MCS-Baselines/gen_scenes_big/GravitySupportEvaluation/eval__0001_01",
+  "version": "2",
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/WallDrywallGrey",
+  "floorMaterial": "UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 1",
+  "wallMaterial": "AI2-THOR/Materials/Ceramics/WhiteCountertop",
+  "floorColors": [
+    "blue"
+  ],
+  "wallColors": [
+    "grey"
+  ],
+  "performerStart": {
+    "position": {
+      "x": 0,
+      "y": 0,
+      "z": -4.5
+    },
+    "rotation": {
+      "y": 0
+    }
+  },
+  "objects": [
+    {
+      "id": "71af45ce-1845-4b11-b6e4-faba03133f5f",
+      "type": "cube",
+      "role": "target",
+      "info": ["medium","heavy","yellow","metal","rectangular prism","medium heavy","medium metal","medium yellow","medium rectangular prism","heavy metal","heavy yellow","heavy rectangular prism","metal yellow","metal rectangular prism","yellow rectangular prism","medium heavy yellow metal rectangular prism","target","target"],
+      "mass": 5,
+      "positionY": 0.225,
+      "salientMaterials": ["metal"],
+      "color": [
+        "yellow"
+      ],
+      "shape": [
+        "rectangular prism"
+      ],
+      "size": "medium",
+      "dimensions": {
+        "x": 1.0,
+        "y": 0.45,
+        "z": 1.0
+      },
+      "untrainedCategory": false,
+      "untrainedColor": false,
+      "untrainedCombination": false,
+      "untrainedShape": false,
+      "untrainedSize": false,
+      "moveable": true,
+      "offset": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "shows": [
+        {
+          "position": {
+            "x": -0.050000000000000044,
+            "y": 7.38,
+            "z": 3.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "stepBegin": 6,
+          "scale": {
+            "x": 1.0,
+            "y": 0.45,
+            "z": 1.0
+          },
+          "boundingBox": [
+            {
+              "x": -0.2499999999999999,
+              "y": 0,
+              "z": 3.75
+            },
+            {
+              "x": -0.2500000000000001,
+              "y": 0,
+              "z": 2.75
+            },
+            {
+              "x": -1.2500000000000002,
+              "y": 0,
+              "z": 2.75
+            },
+            {
+              "x": -1.2499999999999998,
+              "y": 0,
+              "z": 3.75
+            }
+          ]
+        }
+      ],
+      "materialCategory": [
+        "intuitive_physics_metal"
+      ],
+      "materials": ["AI2-THOR/Materials/Metals/Brass 1"],
+      "weight": "heavy",
+      "goalString": "medium heavy yellow metal rectangular prism",
+      "enclosedAreas": [],
+      "moves": [
+        {
+          "stepBegin": 6,
+          "stepEnd": 28,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ],
+      "kinematic": true,
+      "togglePhysics": [
+        {
+          "stepBegin": 34
+        }
+      ],
+      "isAgent": false,
+      "isConfusor": false,
+      "isContainer": false,
+      "isContext": false,
+      "isHome": false,
+      "isKey": false,
+      "isIntuitivePhysicsOccluder": false,
+      "isNonTarget": false,
+      "isObstacle": false,
+      "isOccluder": false,
+      "isStructural": false,
+      "isTarget": true,
+      "isWall": false
+    },
+    {
+      "id": "pole_dddaed28-34e3-45f1-93ec-1a0d3bd2eaa2",
+      "role": "structural",
+      "color": [
+        "magenta",
+        "cyan"
+      ],
+      "info": ["structural"],
+      "shape": [
+        "pole"
+      ],
+      "size": "medium",
+      "type": "cylinder",
+      "kinematic": true,
+      "structure": true,
+      "mass": 50,
+      "materials": ["Custom/Materials/Magenta"],
+      "dimensions": {
+        "x": 0.2,
+        "y": 10,
+        "z": 0.2
+      },
+      "shows": [
+        {
+          "stepBegin": 6,
+          "position": {
+            "x": -0.050000000000000044,
+            "y": 12.605,
+            "z": 3.25
+          },
+          "scale": {
+            "x": 0.2,
+            "y": 5,
+            "z": 0.2
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 6,
+          "stepEnd": 28,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 39,
+          "stepEnd": 61,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "changeMaterials": [
+        {
+          "stepBegin": 34,
+          "materials": [
+            "Custom/Materials/Cyan"
+          ]
+        }
+      ],
+      "states": [["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"]],
+      "isAgent": false,
+      "isConfusor": false,
+      "isContainer": false,
+      "isContext": false,
+      "isHome": false,
+      "isKey": false,
+      "isIntuitivePhysicsOccluder": false,
+      "isNonTarget": false,
+      "isObstacle": false,
+      "isOccluder": false,
+      "isStructural": true,
+      "isTarget": false,
+      "isWall": false
+    },
+    {
+      "id": "9be6b294-b367-47d4-9822-3b780a5e89bb",
+      "type": "cube",
+      "role": "structural",
+      "info": ["medium","massive","grey","rectangular prism","medium massive","medium grey","medium rectangular prism","massive grey","massive rectangular prism","grey rectangular prism","medium massive grey rectangular prism","structural"],
+      "mass": 115,
+      "positionY": 0.7,
+      "salientMaterials": [],
+      "color": [
+        "grey"
+      ],
+      "shape": [
+        "rectangular prism"
+      ],
+      "size": "medium",
+      "dimensions": {
+        "x": 0.9,
+        "y": 1.4,
+        "z": 1.0
+      },
+      "untrainedCategory": false,
+      "untrainedColor": false,
+      "untrainedCombination": false,
+      "untrainedShape": false,
+      "untrainedSize": false,
+      "kinematic": true,
+      "structure": true,
+      "offset": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "shows": [
+        {
+          "position": {
+            "x": -0.75,
+            "y": 0.7,
+            "z": 3.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 0.9,
+            "y": 1.4,
+            "z": 1.0
+          }
+        }
+      ],
+      "materialCategory": [],
+      "materials": ["AI2-THOR/Materials/Walls/WallDrywallGrey"],
+      "weight": "massive",
+      "goalString": "medium massive grey rectangular prism",
+      "enclosedAreas": [],
+      "isAgent": false,
+      "isConfusor": false,
+      "isContainer": false,
+      "isContext": false,
+      "isHome": false,
+      "isKey": false,
+      "isIntuitivePhysicsOccluder": false,
+      "isNonTarget": false,
+      "isObstacle": false,
+      "isOccluder": false,
+      "isStructural": true,
+      "isTarget": false,
+      "isWall": false
+    },
+    {
+      "id": "invisible_support",
+      "type": "cube",
+      "role": "structural",
+      "info": ["medium","massive","grey","rectangular prism","medium massive","medium grey","medium rectangular prism","massive grey","massive rectangular prism","grey rectangular prism","medium massive grey rectangular prism","structural"],
+      "mass": 115,
+      "positionY": 0.7,
+      "salientMaterials": [],
+      "color": [
+        "grey"
+      ],
+      "shape": [
+        "rectangular prism"
+      ],
+      "size": "medium",
+      "dimensions": {
+        "x": 0.9,
+        "y": 1.4,
+        "z": 1.0
+      },
+      "untrainedCategory": false,
+      "untrainedColor": false,
+      "untrainedCombination": false,
+      "untrainedShape": false,
+      "untrainedSize": false,
+      "kinematic": true,
+      "structure": true,
+      "offset": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "shows": [
+        {
+          "position": {
+            "x": 0.20000000000000007,
+            "y": 0.7,
+            "z": 3.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 0.9,
+            "y": 1.4,
+            "z": 1.0
+          }
+        }
+      ],
+      "materialCategory": [],
+      "materials": ["AI2-THOR/Materials/Walls/WallDrywallGrey"],
+      "weight": "massive",
+      "goalString": "medium massive grey rectangular prism",
+      "enclosedAreas": [],
+      "isAgent": false,
+      "isConfusor": false,
+      "isContainer": false,
+      "isContext": false,
+      "isHome": false,
+      "isKey": false,
+      "isIntuitivePhysicsOccluder": false,
+      "isNonTarget": false,
+      "isObstacle": false,
+      "isOccluder": false,
+      "isStructural": true,
+      "isTarget": false,
+      "isWall": false,
+      "shrouds": [
+        {
+          "stepBegin": 0,
+          "stepEnd": 61
+        }
+      ]
+    }
+  ],
+  "goal": {
+    "category": "intuitive physics",
+    "domainsInfo": {
+      "objects": [
+        "objects change motion on contact and do not pass through one another",
+        "objects fall if not supported under center of mass"
+      ],
+      "places": [],
+      "agents": [],
+      "all": [
+        "objects change motion on contact and do not pass through one another",
+        "objects fall if not supported under center of mass"
+      ]
+    },
+    "sceneInfo": {
+      "primaryType": "passive",
+      "secondaryType": "intuitive physics",
+      "tertiaryType": "gravity support",
+      "quaternaryType": "action none",
+      "direction": "right",
+      "fallDown": true,
+      "moveAcross": false,
+      "sceneSetup": "fall down",
+      "count": {
+        "all": 3,
+        "agent": 0,
+        "confusor": 0,
+        "container": 0,
+        "context": 0,
+        "home": 0,
+        "key": 0,
+        "intuitive_physics_occluder": 0,
+        "non_target": 0,
+        "obstacle": 0,
+        "occluder": 0,
+        "structural": 2,
+        "target": 1,
+        "wall": 0
+      },
+      "present": {
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": true,
+        "target": true,
+        "wall": false
+      },
+      "trained": {
+        "any": true,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "trainedCategory": {
+        "any": true,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "trainedColor": {
+        "any": true,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "trainedCombination": {
+        "any": true,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "trainedShape": {
+        "any": true,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "trainedSize": {
+        "any": true,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "untrained": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": false,
+        "wall": false
+      },
+      "untrainedCategory": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": false,
+        "wall": false
+      },
+      "untrainedColor": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": false,
+        "wall": false
+      },
+      "untrainedCombination": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": false,
+        "wall": false
+      },
+      "untrainedShape": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": false,
+        "wall": false
+      },
+      "untrainedSize": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": false,
+        "wall": false
+      },
+      "contained": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": false,
+        "wall": false
+      },
+      "uncontained": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "all": [
+        "passive",
+        "intuitive physics",
+        "gravity support",
+        "action none",
+        "direction right",
+        "fall down",
+        "structural 2",
+        "target 1",
+        "structural present",
+        "target present",
+        "target trained",
+        "target trained category",
+        "target trained color",
+        "target trained combination",
+        "target trained shape",
+        "target trained size",
+        "target uncontained",
+        "GRAV_K1",
+        "K1"
+      ],
+      "slices": [
+        "plausible no",
+        "target position twenty five percent support",
+        "target type symmetric"
+      ],
+      "plausible": "no",
+      "targetPosition": "twenty five percent support",
+      "targetType": "symmetric",
+      "id": [
+        "K1"
+      ],
+      "name": "GRAV_K1",
+      "hypercubeId": "GRAV_K1_8F13BF61-D169-4867-A3B9-74B5594EB1E8"
+    },
+    "objectsInfo": {
+      "all": [
+        "metal",
+        "structural",
+        "yellow rectangular prism",
+        "massive",
+        "massive rectangular prism",
+        "medium",
+        "metal yellow",
+        "heavy rectangular prism",
+        "grey rectangular prism",
+        "medium metal",
+        "heavy yellow",
+        "medium rectangular prism",
+        "target",
+        "trained category",
+        "medium heavy",
+        "trained size",
+        "medium yellow",
+        "medium grey",
+        "heavy",
+        "heavy metal",
+        "medium massive grey rectangular prism",
+        "trained color",
+        "uncontained",
+        "massive grey",
+        "trained shape",
+        "metal rectangular prism",
+        "grey",
+        "trained combination",
+        "rectangular prism",
+        "yellow",
+        "medium heavy yellow metal rectangular prism",
+        "medium massive"
+      ],
+      "agent": [],
+      "confusor": [],
+      "container": [],
+      "context": [],
+      "home": [],
+      "key": [],
+      "intuitive_physics_occluder": [],
+      "non_target": [],
+      "obstacle": [],
+      "occluder": [],
+      "structural": [
+        "grey rectangular prism",
+        "medium massive grey rectangular prism",
+        "medium rectangular prism",
+        "massive",
+        "grey",
+        "rectangular prism",
+        "massive grey",
+        "massive rectangular prism",
+        "medium",
+        "medium massive",
+        "medium grey"
+      ],
+      "target": [
+        "metal",
+        "yellow rectangular prism",
+        "medium",
+        "metal yellow",
+        "heavy rectangular prism",
+        "medium metal",
+        "heavy yellow",
+        "medium rectangular prism",
+        "trained category",
+        "medium heavy",
+        "trained size",
+        "medium yellow",
+        "heavy",
+        "heavy metal",
+        "trained color",
+        "uncontained",
+        "trained shape",
+        "metal rectangular prism",
+        "trained combination",
+        "rectangular prism",
+        "yellow",
+        "medium heavy yellow metal rectangular prism"
+      ],
+      "wall": []
+    },
+    "answer": {
+      "choice": "implausible"
+    },
+    "last_step": 60,
+    "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
+    "description": "",
+    "metadata": {
+      "choose": [
+        "plausible",
+        "implausible"
+      ]
+    }
+  },
+  "evaluationOnly": true,
+  "intuitivePhysics": true,
+  "hypercubeNumber": 1,
+  "sceneNumber": 1,
+  "evaluation": null,
+  "training": false
+}

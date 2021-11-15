@@ -1,0 +1,107 @@
+{
+  "name": "/home/lol/Hub/NYU-MCS-Baselines/gen_scenes_big/CollisionTraining/eval__0001_01",
+  "version": "2",
+  "ceilingMaterial": "AI2-THOR/Materials/Metals/BrushedIron_AlbedoTransparency",
+  "floorMaterial": "AI2-THOR/Materials/Wood/DarkWoodSmooth2",
+  "wallMaterial": "AI2-THOR/Materials/Ceramics/GREYGRANITE",
+  "performerStart": {
+    "position": {
+      "x": 0,
+      "y": 0,
+      "z": -4.5
+    },
+    "rotation": {
+      "y": 0
+    }
+  },
+  "objects": [
+    {
+      "id": "b8d7c2da-96aa-4539-87d1-4a7afb7b3e2b",
+      "type": "tube_narrow",
+      "mass": 0.7,
+      "positionY": 0.35,
+      "salientMaterials": ["plastic"],
+      "moveable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -4.88,
+            "y": 0.35,
+            "z": 2.8000000000000003
+          },
+          "rotation": {
+            "x": 90,
+            "y": 0,
+            "z": 0
+          },
+          "stepBegin": 99,
+          "scale": {
+            "x": 0.7,
+            "y": 0.7,
+            "z": 0.7
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/Blue"],
+      "forces": [
+        {
+          "stepBegin": 99,
+          "stepEnd": 99,
+          "vector": {
+            "x": 461.99999999999994,
+            "y": 0.0,
+            "z": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "6d69927e-250f-4444-b02c-c0760ab28c4a",
+      "type": "tube_narrow",
+      "mass": 0.7,
+      "positionY": 0.35,
+      "salientMaterials": ["plastic"],
+      "moveable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 1.2669520547945203,
+            "y": 0.35,
+            "z": 4.25
+          },
+          "rotation": {
+            "x": 90,
+            "y": 0,
+            "z": 0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 0.7,
+            "y": 0.7,
+            "z": 0.7
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/Yellow"],
+      "forces": []
+    }
+  ],
+  "goal": {
+    "category": "intuitive physics",
+    "last_step": 200,
+    "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
+    "description": "",
+    "metadata": {
+      "choose": [
+        "plausible",
+        "implausible"
+      ]
+    }
+  },
+  "evaluationOnly": false,
+  "intuitivePhysics": true,
+  "hypercubeNumber": 1,
+  "sceneNumber": 1,
+  "evaluation": null,
+  "training": true
+}

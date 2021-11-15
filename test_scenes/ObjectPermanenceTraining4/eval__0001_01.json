@@ -1,0 +1,210 @@
+{
+  "name": "/home/lol/Hub/NYU-MCS-Baselines/gen_scenes_big/ObjectPermanenceTraining4/eval__0001_01",
+  "version": "2",
+  "ceilingMaterial": "AI2-THOR/Materials/Wood/LightWoodCounters3",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetDarkGreen",
+  "wallMaterial": "UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 1",
+  "performerStart": {
+    "position": {
+      "x": 0,
+      "y": 0,
+      "z": -4.5
+    },
+    "rotation": {
+      "y": 0
+    }
+  },
+  "objects": [
+    {
+      "id": "3e32283f-ac62-4258-abf7-3dda76306c64",
+      "type": "duck_on_wheels",
+      "mass": 1.1875,
+      "positionY": 0.0,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -4.73,
+            "y": 0.0,
+            "z": 2.5500000000000003
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "stepBegin": 94,
+          "scale": {
+            "x": 4.75,
+            "y": 4.75,
+            "z": 4.75
+          }
+        }
+      ],
+      "materials": ["AI2-THOR/Materials/Wood/WornWood"],
+      "forces": [
+        {
+          "stepBegin": 94,
+          "stepEnd": 94,
+          "vector": {
+            "x": 831.25,
+            "y": 0.0,
+            "z": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "occluder_wall_770677df-5ad2-4abb-a48a-6eb0135f7621",
+      "type": "cube",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["AI2-THOR/Materials/Walls/Drywall4Tiled"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -0.8643971631205672,
+            "y": 1.5,
+            "z": 1
+          },
+          "scale": {
+            "x": 3.682742910631704,
+            "y": 3,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 6,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 71,
+          "stepEnd": 76,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 201,
+          "stepEnd": 206,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "rotates": [
+        {
+          "stepBegin": 7,
+          "stepEnd": 36,
+          "vector": {
+            "x": 0,
+            "y": 3.0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 41,
+          "stepEnd": 70,
+          "vector": {
+            "x": 0,
+            "y": -3.0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 207,
+          "stepEnd": 236,
+          "vector": {
+            "x": 0,
+            "y": 3.0,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "occluder_pole_770677df-5ad2-4abb-a48a-6eb0135f7621",
+      "type": "cylinder",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["AI2-THOR/Materials/Metals/BrownMetal 1"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -0.8643971631205672,
+            "y": 3.25,
+            "z": 1
+          },
+          "scale": {
+            "x": 0.095,
+            "y": 2,
+            "z": 0.095
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 6,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 71,
+          "stepEnd": 76,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 201,
+          "stepEnd": 206,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ]
+    }
+  ],
+  "goal": {
+    "category": "intuitive physics",
+    "last_step": 240,
+    "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
+    "description": "",
+    "metadata": {
+      "choose": [
+        "plausible",
+        "implausible"
+      ]
+    }
+  },
+  "evaluationOnly": false,
+  "intuitivePhysics": true,
+  "hypercubeNumber": 1,
+  "sceneNumber": 1,
+  "evaluation": null,
+  "training": true
+}

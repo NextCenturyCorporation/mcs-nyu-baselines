@@ -1,0 +1,790 @@
+{
+  "name": "/home/lol/Hub/NYU-MCS-Baselines/gen_scenes_big/CollisionTraining/eval__0001_01",
+  "version": "2",
+  "ceilingMaterial": "AI2-THOR/Materials/Metals/BrushedIron_AlbedoTransparency",
+  "floorMaterial": "AI2-THOR/Materials/Wood/DarkWoodSmooth2",
+  "wallMaterial": "AI2-THOR/Materials/Ceramics/GREYGRANITE",
+  "floorColors": [
+    "black"
+  ],
+  "wallColors": [
+    "grey"
+  ],
+  "performerStart": {
+    "position": {
+      "x": 0,
+      "y": 0,
+      "z": -4.5
+    },
+    "rotation": {
+      "y": 0
+    }
+  },
+  "objects": [
+    {
+      "id": "b8d7c2da-96aa-4539-87d1-4a7afb7b3e2b",
+      "type": "tube_narrow",
+      "role": "target",
+      "info": ["medium","heavy","blue","plastic","narrow tube","medium heavy","medium plastic","medium blue","medium narrow tube","heavy plastic","heavy blue","heavy narrow tube","plastic blue","plastic narrow tube","blue narrow tube","medium heavy blue plastic narrow tube","target","target"],
+      "mass": 0.7,
+      "positionY": 0.35,
+      "salientMaterials": ["plastic"],
+      "color": [
+        "blue"
+      ],
+      "shape": [
+        "narrow tube"
+      ],
+      "size": "medium",
+      "dimensions": {
+        "x": 0.7,
+        "y": 0.7,
+        "z": 0.7
+      },
+      "untrainedCategory": false,
+      "untrainedColor": false,
+      "untrainedCombination": false,
+      "untrainedShape": false,
+      "untrainedSize": false,
+      "moveable": true,
+      "offset": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "shows": [
+        {
+          "position": {
+            "x": -4.88,
+            "y": 0.35,
+            "z": 2.8000000000000003
+          },
+          "rotation": {
+            "x": 90,
+            "y": 0,
+            "z": 0
+          },
+          "stepBegin": 99,
+          "scale": {
+            "x": 0.7,
+            "y": 0.7,
+            "z": 0.7
+          },
+          "boundingBox": [
+            {
+              "x": -4.53,
+              "y": 0,
+              "z": 3.1500000000000004
+            },
+            {
+              "x": -4.53,
+              "y": 0,
+              "z": 2.45
+            },
+            {
+              "x": -5.2299999999999995,
+              "y": 0,
+              "z": 2.45
+            },
+            {
+              "x": -5.2299999999999995,
+              "y": 0,
+              "z": 3.1500000000000004
+            }
+          ]
+        }
+      ],
+      "materialCategory": [
+        "opposite"
+      ],
+      "materials": ["Custom/Materials/Blue"],
+      "weight": "heavy",
+      "goalString": "medium heavy blue plastic narrow tube",
+      "enclosedAreas": [],
+      "movement": {
+        "active": "moveExit",
+        "stepList": [
+          19
+        ],
+        "positionList": [
+          0.853
+        ],
+        "moveExit": {
+          "forceX": 660,
+          "startY": 0,
+          "xDistanceByStep": [
+            -4.553,
+            -4.229,
+            -3.911,
+            -3.596,
+            -3.286,
+            -2.98,
+            -2.678,
+            -2.381,
+            -2.088,
+            -1.799,
+            -1.514,
+            -1.234,
+            -0.958,
+            -0.687,
+            -0.419,
+            -0.156,
+            0.103,
+            0.357,
+            0.607,
+            0.853,
+            1.095,
+            1.332,
+            1.565,
+            1.794,
+            2.018,
+            2.238,
+            2.454,
+            2.666,
+            2.873,
+            3.076,
+            3.274,
+            3.469,
+            3.659,
+            3.845,
+            4.026,
+            4.203,
+            4.376,
+            4.545,
+            4.709,
+            4.869
+          ]
+        },
+        "deepExit": null,
+        "tossExit": null,
+        "moveStop": null,
+        "deepStop": null,
+        "tossStop": null
+      },
+      "forces": [
+        {
+          "stepBegin": 99,
+          "stepEnd": 99,
+          "vector": {
+            "x": 461.99999999999994,
+            "y": 0.0,
+            "z": 0.0
+          }
+        }
+      ],
+      "isAgent": false,
+      "isConfusor": false,
+      "isContainer": false,
+      "isContext": false,
+      "isHome": false,
+      "isKey": false,
+      "isIntuitivePhysicsOccluder": false,
+      "isNonTarget": false,
+      "isObstacle": false,
+      "isOccluder": false,
+      "isStructural": false,
+      "isTarget": true,
+      "isWall": false
+    },
+    {
+      "id": "6d69927e-250f-4444-b02c-c0760ab28c4a",
+      "type": "tube_narrow",
+      "role": "non target",
+      "info": ["medium","heavy","yellow","plastic","narrow tube","medium heavy","medium plastic","medium yellow","medium narrow tube","heavy plastic","heavy yellow","heavy narrow tube","plastic yellow","plastic narrow tube","yellow narrow tube","medium heavy yellow plastic narrow tube","non target","non target"],
+      "mass": 0.7,
+      "positionY": 0.35,
+      "salientMaterials": ["plastic"],
+      "color": [
+        "yellow"
+      ],
+      "shape": [
+        "narrow tube"
+      ],
+      "size": "medium",
+      "dimensions": {
+        "x": 0.7,
+        "y": 0.7,
+        "z": 0.7
+      },
+      "untrainedCategory": false,
+      "untrainedColor": false,
+      "untrainedCombination": false,
+      "untrainedShape": false,
+      "untrainedSize": false,
+      "moveable": true,
+      "offset": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "shows": [
+        {
+          "position": {
+            "x": 1.2669520547945203,
+            "y": 0.35,
+            "z": 4.25
+          },
+          "rotation": {
+            "x": 90,
+            "y": 0,
+            "z": 0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 0.7,
+            "y": 0.7,
+            "z": 0.7
+          },
+          "boundingBox": [
+            {
+              "x": -4.53,
+              "y": 0,
+              "z": 3.1500000000000004
+            },
+            {
+              "x": -4.53,
+              "y": 0,
+              "z": 2.45
+            },
+            {
+              "x": -5.2299999999999995,
+              "y": 0,
+              "z": 2.45
+            },
+            {
+              "x": -5.2299999999999995,
+              "y": 0,
+              "z": 3.1500000000000004
+            }
+          ]
+        }
+      ],
+      "materialCategory": [
+        "opposite"
+      ],
+      "materials": ["Custom/Materials/Yellow"],
+      "weight": "heavy",
+      "goalString": "medium heavy yellow plastic narrow tube",
+      "enclosedAreas": [],
+      "movement": {
+        "active": "moveExit",
+        "stepList": [
+          19
+        ],
+        "positionList": [
+          0.853
+        ],
+        "moveExit": {
+          "forceX": 660,
+          "startY": 0,
+          "xDistanceByStep": [
+            -4.553,
+            -4.229,
+            -3.911,
+            -3.596,
+            -3.286,
+            -2.98,
+            -2.678,
+            -2.381,
+            -2.088,
+            -1.799,
+            -1.514,
+            -1.234,
+            -0.958,
+            -0.687,
+            -0.419,
+            -0.156,
+            0.103,
+            0.357,
+            0.607,
+            0.853,
+            1.095,
+            1.332,
+            1.565,
+            1.794,
+            2.018,
+            2.238,
+            2.454,
+            2.666,
+            2.873,
+            3.076,
+            3.274,
+            3.469,
+            3.659,
+            3.845,
+            4.026,
+            4.203,
+            4.376,
+            4.545,
+            4.709,
+            4.869
+          ]
+        },
+        "deepExit": null,
+        "tossExit": null,
+        "moveStop": null,
+        "deepStop": null,
+        "tossStop": null
+      },
+      "forces": [],
+      "isAgent": false,
+      "isConfusor": false,
+      "isContainer": false,
+      "isContext": false,
+      "isHome": false,
+      "isKey": false,
+      "isIntuitivePhysicsOccluder": false,
+      "isNonTarget": true,
+      "isObstacle": false,
+      "isOccluder": false,
+      "isStructural": false,
+      "isTarget": false,
+      "isWall": false
+    }
+  ],
+  "goal": {
+    "category": "intuitive physics",
+    "domainsInfo": {
+      "objects": [
+        "objects have depth and move in 3D space",
+        "objects move separately from one another except on contact",
+        "objects change motion on contact and do not pass through one another",
+        "objects persist and can be tracked briefly over occlusion",
+        "unseen objects can cause visible outcomes"
+      ],
+      "places": [],
+      "agents": [],
+      "all": [
+        "objects have depth and move in 3D space",
+        "objects move separately from one another except on contact",
+        "objects change motion on contact and do not pass through one another",
+        "objects persist and can be tracked briefly over occlusion",
+        "unseen objects can cause visible outcomes"
+      ]
+    },
+    "sceneInfo": {
+      "primaryType": "passive",
+      "secondaryType": "intuitive physics",
+      "tertiaryType": "collisions",
+      "quaternaryType": "action none",
+      "direction": null,
+      "fallDown": false,
+      "moveAcross": true,
+      "sceneSetup": "move across",
+      "count": {
+        "all": 3,
+        "agent": 0,
+        "confusor": 0,
+        "container": 0,
+        "context": 0,
+        "home": 0,
+        "key": 0,
+        "intuitive_physics_occluder": 1,
+        "non_target": 1,
+        "obstacle": 0,
+        "occluder": 0,
+        "structural": 0,
+        "target": 1,
+        "wall": 0
+      },
+      "present": {
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": true,
+        "non_target": true,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "trained": {
+        "any": true,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": true,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "trainedCategory": {
+        "any": true,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": true,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "trainedColor": {
+        "any": true,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": true,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "trainedCombination": {
+        "any": true,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": true,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "trainedShape": {
+        "any": true,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": true,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "trainedSize": {
+        "any": true,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": true,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "untrained": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": false,
+        "wall": false
+      },
+      "untrainedCategory": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": false,
+        "wall": false
+      },
+      "untrainedColor": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": false,
+        "wall": false
+      },
+      "untrainedCombination": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": false,
+        "wall": false
+      },
+      "untrainedShape": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": false,
+        "wall": false
+      },
+      "untrainedSize": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": false,
+        "wall": false
+      },
+      "contained": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": false,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": false,
+        "wall": false
+      },
+      "uncontained": {
+        "any": false,
+        "agent": false,
+        "confusor": false,
+        "container": false,
+        "context": false,
+        "home": false,
+        "key": false,
+        "intuitive_physics_occluder": false,
+        "non_target": true,
+        "obstacle": false,
+        "occluder": false,
+        "structural": false,
+        "target": true,
+        "wall": false
+      },
+      "all": [
+        "passive",
+        "intuitive physics",
+        "collisions",
+        "action none",
+        "move across",
+        "intuitive physics occluder 1",
+        "non target 1",
+        "target 1",
+        "intuitive physics occluder present",
+        "non target present",
+        "target present",
+        "non target trained",
+        "target trained",
+        "non target trained category",
+        "target trained category",
+        "non target trained color",
+        "target trained color",
+        "non target trained combination",
+        "target trained combination",
+        "non target trained shape",
+        "target trained shape",
+        "non target trained size",
+        "target trained size",
+        "non target uncontained",
+        "target uncontained",
+        "COLL_C2",
+        "C2"
+      ],
+      "slices": [
+        "object moves off screen first object",
+        "occluders no",
+        "occluder reveals empty scene",
+        "objects trained yes"
+      ],
+      "objectMovesOffScreen": "first object",
+      "occluders": "no",
+      "objectsTrained": "yes",
+      "occluderReveals": "empty scene",
+      "id": [
+        "C2"
+      ],
+      "name": "COLL_C2",
+      "hypercubeId": "COLL_C2_E8F4ECD9-4517-4E06-A9CE-1F103AD3D47F"
+    },
+    "objectsInfo": {
+      "all": [
+        "trained category",
+        "medium heavy yellow plastic narrow tube",
+        "medium heavy",
+        "heavy yellow",
+        "plastic",
+        "medium yellow",
+        "non target",
+        "plastic blue",
+        "blue",
+        "trained shape",
+        "trained size",
+        "medium narrow tube",
+        "target",
+        "medium blue",
+        "yellow narrow tube",
+        "plastic yellow",
+        "uncontained",
+        "heavy blue",
+        "blue narrow tube",
+        "yellow",
+        "medium plastic",
+        "heavy plastic",
+        "trained combination",
+        "heavy",
+        "intuitive physics occluder",
+        "heavy narrow tube",
+        "white",
+        "narrow tube",
+        "trained color",
+        "medium",
+        "medium heavy blue plastic narrow tube",
+        "plastic narrow tube"
+      ],
+      "agent": [],
+      "confusor": [],
+      "container": [],
+      "context": [],
+      "home": [],
+      "key": [],
+      "intuitive_physics_occluder": [
+        "white"
+      ],
+      "non_target": [
+        "trained category",
+        "medium heavy yellow plastic narrow tube",
+        "medium heavy",
+        "heavy yellow",
+        "plastic",
+        "medium yellow",
+        "trained shape",
+        "trained size",
+        "medium narrow tube",
+        "yellow narrow tube",
+        "plastic yellow",
+        "uncontained",
+        "yellow",
+        "medium plastic",
+        "heavy plastic",
+        "trained combination",
+        "heavy",
+        "heavy narrow tube",
+        "narrow tube",
+        "trained color",
+        "medium",
+        "plastic narrow tube"
+      ],
+      "obstacle": [],
+      "occluder": [],
+      "structural": [],
+      "target": [
+        "trained category",
+        "medium heavy",
+        "plastic",
+        "plastic blue",
+        "blue",
+        "trained shape",
+        "trained size",
+        "medium narrow tube",
+        "medium blue",
+        "uncontained",
+        "heavy blue",
+        "blue narrow tube",
+        "medium plastic",
+        "heavy plastic",
+        "trained combination",
+        "heavy",
+        "heavy narrow tube",
+        "narrow tube",
+        "trained color",
+        "medium",
+        "medium heavy blue plastic narrow tube",
+        "plastic narrow tube"
+      ],
+      "wall": []
+    },
+    "answer": {
+      "choice": "plausible"
+    },
+    "last_step": 200,
+    "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
+    "description": "",
+    "metadata": {
+      "choose": [
+        "plausible",
+        "implausible"
+      ]
+    }
+  },
+  "evaluationOnly": false,
+  "intuitivePhysics": true,
+  "hypercubeNumber": 1,
+  "sceneNumber": 1,
+  "evaluation": null,
+  "training": true
+}
