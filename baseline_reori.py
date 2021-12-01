@@ -181,8 +181,11 @@ FLAGS = flags.FLAGS
 flags.DEFINE_string('scene_file', './reori_0001_01.json', 'Path to scene file')
 
 
-def main(scene_data: dict):
-    controller = mcs.create_controller(config_file_or_dict="mcs_config.ini")
+def main(scene_data: dict, unity_app: str = None):
+    controller = mcs.create_controller(
+        config_file_or_dict="mcs_config.ini",
+        unity_app_file_path=unity_app
+    )
 
     objectid = [f for f in scene_data["objects"] if f["type"] =="soccer_ball"][0]["id"]
 

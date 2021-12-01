@@ -325,11 +325,14 @@ def run_collision_scene(scene_data, controller, models, base_path="~/logs", num_
     controller.end_scene(rating=choice, score=choice, report=report)
 
 
-def main(scene_data: dict):
+def main(scene_data: dict, unity_app: str = None):
     #unity_app_file_path = "PATH_HERE/MCS-AI2-THOR-Unity-App-v0.4.3-linux/MCS-AI2-THOR-Unity-App-v0.4.3.x86_64"
     MCS_CONFIG_FILE_PATH = 'mcs_config.ini'  # NOTE: I ran the tests with option "size: 450". Different sizes might lead to worse results
     #raise AttributeError("Please fill out the unity app executable path and config path")
-    controller = mcs.create_controller(config_file_or_dict=MCS_CONFIG_FILE_PATH)
+    controller = mcs.create_controller(
+        config_file_or_dict=MCS_CONFIG_FILE_PATH,
+        unity_app_file_path=unity_app
+    )
     NUMSTEPS = 200
     BATCH_SIZE = 1
     model_path = "trained/CollisionTraining"
