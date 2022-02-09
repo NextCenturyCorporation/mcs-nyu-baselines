@@ -2,6 +2,7 @@ import glob
 import os
 import random
 from typing import List
+import sys
 
 import cv2
 import numpy as np
@@ -179,7 +180,7 @@ def make_step_prediction(choice, confidence, heatmap_img=None):
         choice = 1
     if choice == 'implausible':
         choice = 0
-    if heatmap_img:
+    if heatmap_img is not None:
         xy_list = np.argwhere(heatmap_img >= 200)
         xy_list = [{"x": x, "y": y} for x, y in xy_list]
     else:
@@ -209,6 +210,9 @@ def run_scene(json_path, controller, models, base_path="~/logs", num_steps=60, v
     predicted_implausible = [False for i in range(num_steps)]
     for step in range(num_steps):
         output = controller.step("Pass")
+        if output is None:
+            print('breaking at step',step,'due to no output from controller')
+            break
         images.append(rgb_to_torch_img(output.image_list[0]).cuda())
         if background is None and step >= 40:
             background = torch_to_np_img(images[-1])
@@ -314,8 +318,7 @@ def run_scene(json_path, controller, models, base_path="~/logs", num_steps=60, v
 
 
 def main(fname: str):
-    #unity_app_file_path = "PATH_HERE/MCS-AI2-THOR-Unity-App-v0.4.3-linux/MCS-AI2-THOR-Unity-App-v0.4.3.x86_64"
-    MCS_CONFIG_FILE_PATH = 'mcs_config.ini'  # NOTE: I ran the tests with option "size: 450". Different sizes might lead to worse results
+    MCS_CONFIG_FILE_PATH = 'my_mcs_config.ini'  # NOTE: I ran the tests with option "size: 450". Different sizes might lead to worse results
     #raise AttributeError("Please fill out the unity app executable path and config path")
     controller = mcs.create_controller(config_file_or_dict=MCS_CONFIG_FILE_PATH)
     #controller = mcs.create_controller(unity_app_file_path, config_file_path=MCS_CONFIG_FILE_PATH)
@@ -339,7 +342,7 @@ def main(fname: str):
     encoder = saved_model['encoder'].eval().cuda()
     PREDICTION_HORIZON = 3
 
-    run_scene(fname, controller, (frame_predictor, posterior, prior, encoder, decoder), num_steps=NUMSTEPS, visualize=False, pred_horizon=PREDICTION_HORIZON)
+    run_scene(fname, controller, (frame_predictor, posterior, prior, encoder, decoder), num_steps=NUMSTEPS, visualize=True, pred_horizon=PREDICTION_HORIZON)
 
 
 if __name__ == '__main__':

@@ -2,6 +2,7 @@ import glob
 import os
 import random
 from typing import List
+import sys
 
 import cv2
 import numpy as np
@@ -181,6 +182,23 @@ def get_implausibility_score(poly_list1: List[Polygon], poly_list2: List[Polygon
     return implausibility, max_min_dist[0]
 
 
+def make_step_prediction(choice, confidence, heatmap_img=None):
+    if choice == 'plausible':
+        choice = 1
+    if choice == 'implausible':
+        choice = 0
+    if heatmap_img is not None:
+        xy_list = np.argwhere(heatmap_img >= 200)
+        xy_list = [{"x": x, "y": y} for x, y in xy_list]
+    else:
+        xy_list = None
+    return {
+            "rating": choice,
+            "score": choice,
+            "xy_list": xy_list
+    }
+
+
 def run_object_permanence(json_path, controller, models, base_path="~/logs", num_steps=60, visualize=False, pred_horizon=5):
     report = {}
     frame_predictor, posterior, prior, encoder, decoder = models
@@ -200,6 +218,9 @@ def run_object_permanence(json_path, controller, models, base_path="~/logs", num
     predicted_implausible = [False for i in range(num_steps)]
     for step in range(num_steps):
         output = controller.step("Pass")
+        if output is None:
+            print('breaking at step',step,'due to no output from controller')
+            break
         images.append(rgb_to_torch_img(output.image_list[0]).cuda())
         if background is None:
             background = torch_to_np_img(images[-1])
@@ -300,12 +321,11 @@ def run_object_permanence(json_path, controller, models, base_path="~/logs", num
 
 
 def main(fname: str):
-    #unity_app_file_path = "PATH_HERE/MCS-AI2-THOR-Unity-App-v0.4.3-linux/MCS-AI2-THOR-Unity-App-v0.4.3.x86_64"
-    MCS_CONFIG_FILE_PATH = 'mcs_config.ini'  # NOTE: I ran the tests with option "size: 450". Different sizes might lead to worse results
+    MCS_CONFIG_FILE_PATH = 'my_mcs_config.ini'  # NOTE: I ran the tests with option "size: 450". Different sizes might lead to worse results
     #raise AttributeError("Please fill out the unity app executable path and config path")
     controller = mcs.create_controller(config_file_or_dict=MCS_CONFIG_FILE_PATH)
     # assumes all the steps are 60...can change this if this is not the case at test
-    NUMSTEPS = 200
+    NUMSTEPS = 240
     BATCH_SIZE = 1
     model_path = "trained/ObjectPermanenceTraining4"
 

@@ -11,6 +11,7 @@ import machine_common_sense as mcs
 import torch
 import torch.nn as nn
 from shapely.geometry import Polygon
+import sys
 
 
 def rgb_to_torch_img(img_rgb_pil, out_size=64):
@@ -185,7 +186,7 @@ def make_step_prediction(choice, confidence, heatmap_img=None):
         choice = 1
     if choice == 'implausible':
         choice = 0
-    if heatmap_img:
+    if heatmap_img is not None:
         xy_list = np.argwhere(heatmap_img >= 200)
         xy_list = [{"x": x, "y": y} for x, y in xy_list]
     else:
@@ -214,6 +215,9 @@ def run_scene(json_path, controller, models, base_path="~/logs", num_steps=60, v
     imp_score = 0
     for step in range(num_steps):
         output = controller.step("Pass")
+        if output is None:
+            print('breaking at step',step,'due to no output from controller')
+            break
         images.append(rgb_to_torch_img(output.image_list[0]).cuda())
         if background is None:
             background = torch_to_np_img(images[-1])
@@ -294,19 +298,18 @@ def run_scene(json_path, controller, models, base_path="~/logs", num_steps=60, v
         choice = "plausible"
         conf = 1 - imp_score
     print('choice: {}'.format(choice))
-    print('choice: {}{}'.format(choice, implausible_time))
     choice = 1 if choice == 'plausible' else 0
     controller.end_scene(rating=choice, score=choice, report=report)
 
 
 def main(fname: str):
-    #unity_app_file_path = "PATH_HERE/MCS-AI2-THOR-Unity-App-v0.4.3-linux/MCS-AI2-THOR-Unity-App-v0.4.3.x86_64"
-    MCS_CONFIG_FILE_PATH = 'mcs_config.ini'  # NOTE: I ran the tests with option "size: 450". Different sizes might lead to worse results
+    MCS_CONFIG_FILE_PATH = 'my_mcs_config.ini'  # NOTE: I ran the tests with option "size: 450". Different sizes might lead to worse results
     #raise AttributeError("Please fill out the unity app executable path and config path")
+    # print(mcs.__version__)
     controller = mcs.create_controller(config_file_or_dict=MCS_CONFIG_FILE_PATH)
     #controller = mcs.create_controller(unity_app_file_path, config_file_path=MCS_CONFIG_FILE_PATH)
     # assumes all the steps are 60...can change this if this is not the case at test
-    NUMSTEPS = 200
+    NUMSTEPS = 60
     BATCH_SIZE = 1
     model_path = "trained/GravitySupportTraining"
 

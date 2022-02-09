@@ -2,6 +2,7 @@ import glob
 import os
 import random
 from typing import List
+import sys
 
 import cv2
 import numpy as np
@@ -188,7 +189,7 @@ def make_step_prediction(choice, confidence, heatmap_img=None):
         choice = 1
     if choice == 'implausible':
         choice = 0
-    if heatmap_img:
+    if heatmap_img is not None:
         xy_list = np.argwhere(heatmap_img >= 200)
         xy_list = [{"x": x, "y": y} for x, y in xy_list]
     else:
@@ -219,6 +220,9 @@ def run_shapeconstancy_scene(json_path, controller, models, base_path="~/logs", 
     predicted_implausible = [False for i in range(num_steps)]
     for step in range(num_steps):
         output = controller.step("Pass")
+        if output is None:
+            print('breaking at step',step,'due to no output from controller')
+            break
         images.append(rgb_to_torch_img(output.image_list[0]).cuda())
         if background is None:
             background = torch_to_np_img(images[-1])
@@ -310,19 +314,17 @@ def run_shapeconstancy_scene(json_path, controller, models, base_path="~/logs", 
                 # print('choosing implausible at t={}'.format(t))
                 break
     print('choice: {}{}'.format(choice, implausible_time))
-    print('choice: {}{}'.format(choice, implausible_time))
     choice = 1 if choice == 'plausible' else 0
     controller.end_scene(rating=choice, score=choice, report=report)
 
 
 def main(fname: str):
-    #unity_app_file_path = "PATH_HERE/MCS-AI2-THOR-Unity-App-v0.4.3-linux/MCS-AI2-THOR-Unity-App-v0.4.3.x86_64"
-    MCS_CONFIG_FILE_PATH = 'mcs_config.ini'  # NOTE: I ran the tests with option "size: 450". Different sizes might lead to worse results
+    MCS_CONFIG_FILE_PATH = 'my_mcs_config.ini'  # NOTE: I ran the tests with option "size: 450". Different sizes might lead to worse results
     #raise AttributeError("Please fill out the unity app executable path and config path")
     controller = mcs.create_controller(config_file_or_dict=MCS_CONFIG_FILE_PATH)
     #controller = mcs.create_controller(unity_app_file_path, config_file_path=MCS_CONFIG_FILE_PATH)
     # assumes all the steps are 60...can change this if this is not the case at test
-    NUMSTEPS = 200
+    NUMSTEPS = 160
     BATCH_SIZE = 1
     model_path = "trained/ShapeConstancyTraining"
 
