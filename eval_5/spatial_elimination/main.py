@@ -77,6 +77,7 @@ def naviagte(loc_result, cw, ch, actions, parameters, pred_class):
             right_border = res['xmax'] + max(const.LEFT_RIGHT_CUSHION, 0)
             top_border = res['ymin'] - max(const.TOP_BOTTOM_CUSHION, 0)
             bottom_border = res['ymax'] + max(const.TOP_BOTTOM_CUSHION, 0)
+            actions = actions.copy()
             if left_border <= cw <= right_border:
                 actions.extend(const.STICKY_MOVE_AHEAD)
                 parameters.extend([{} for _ in range(len(const.STICKY_MOVE_AHEAD))])
@@ -151,9 +152,13 @@ def select_action(output, model):
             actions = const.STICKY_MOVE_AHEAD
             parameters = [{} for _ in range(len(const.STICKY_MOVE_AHEAD))]
         if epoch > 6:
+            actions = actions.copy()
             actions.extend(const.PICK_UP_SEQUENCE)
             for act in const.PICK_UP_SEQUENCE:
-                parameters.extend([{'objectId': 'target'} if act == 'PickupObject' else {}])
+                parameters.extend([
+                    {"objectImageCoordsX": 300, "objectImageCoordsY": 100}
+                    if act == 'PickupObject' else {}
+                ])
 
     elif const.SCENE_HAS_SOCCER_BALL and const.OCCLUDER in predicted_classes \
             and const.SPORTS_BALL not in predicted_classes:
@@ -162,11 +167,13 @@ def select_action(output, model):
     elif const.SPORTS_BALL in predicted_classes:
         actions, parameters = naviagte(loc_result, cw, ch, actions, parameters, const.SPORTS_BALL)
         if epoch > 6:
+            actions = actions.copy()
             actions.extend(const.PICK_UP_SEQUENCE)
             for act in const.PICK_UP_SEQUENCE:
                 parameters.extend(
                     [{
-                         'objectId': 'target'
+                        "objectImageCoordsX": 300,
+                        "objectImageCoordsY": 100
                          # 'objectImageCoordsX': (res['xmax'] - res['xmin']) // 2,
                          # 'objectImageCoordsY': (res['ymax'] - res['ymin']) // 2
                      } if act == 'PickupObject' else {}]
@@ -174,17 +181,22 @@ def select_action(output, model):
 
     if actions is None or len(actions) == 0:
         actions = ['MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveAhead', 'LookDown', 'PickupObject']
-        parameters = [{}, {}, {}, {}, {}, {'objectId': 'target'}]
+        parameters = [{}, {}, {}, {}, {}, {"objectImageCoordsX": 300, "objectImageCoordsY": 100}]
 
     return actions, parameters
 
 
 if __name__ == '__main__':
     first_action = True
-    controller = mcs.create_controller(config_file_or_dict='../sample_config.ini')
     parser = argparse.ArgumentParser()
     parser.add_argument('--scene_path', type=str)
+    parser.add_argument(
+        '--unity_path',
+        type=str,
+        default='/home/ubuntu/unity_app/MCS-AI2-THOR-Unity-App-v0.5.7.x86_64'
+    )
     args = parser.parse_args()
+    controller = mcs.create_controller(config_file_or_dict='../sample_config.ini', unity_app_file_path=args.unity_path)
     scene_json_file_path = args.scene_path
     scene_data = mcs.load_scene_json_file(scene_json_file_path)
 
@@ -201,6 +213,9 @@ if __name__ == '__main__':
         print("Actions to execute: ", action)
         for idx in range(len(action)):
             output = controller.step(action[idx], **params[idx])
+            if output is None:
+                controller.end_scene()
+                exit()
             if action[idx] == const.ACTION_MOVE_AHEAD[0] and output.return_status == "OBSTRUCTED":
                 print("INFO : Move obstructed by occluder.")
                 const.MOVE_AHEAD_OBSTRUCTED = True

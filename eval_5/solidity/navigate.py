@@ -71,7 +71,7 @@ def navitage_to_ball(output, model, epoch):
 
     actions.extend(const.PICK_UP_SEQUENCE)
     params = [{} for _ in range(len(actions))]
-    params[-1] = {"objectId": "target"}
+    params[-1] = {"objectImageCoordsX": 300, "objectImageCoordsY": 100}
     return actions, params
 
 

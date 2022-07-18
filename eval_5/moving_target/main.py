@@ -387,9 +387,14 @@ if __name__ == '__main__':
     second_sighting = ''
     parser = argparse.ArgumentParser()
     parser.add_argument('--scene_path', type=str)
+    parser.add_argument(
+        '--unity_path',
+        type=str,
+        default='/home/ubuntu/unity_app/MCS-AI2-THOR-Unity-App-v0.5.7.x86_64'
+    )
     args = parser.parse_args()
     fn = args.scene_path
-    controller = mcs.create_controller(config_file_or_dict='../sample_config.ini')
+    controller = mcs.create_controller(config_file_or_dict='../sample_config.ini', unity_app_file_path=args.unity_path)
     if os.path.exists(fn):
         scene_data = mcs.load_scene_json_file(fn)
     
@@ -407,6 +412,9 @@ if __name__ == '__main__':
         print("Actions to execute: ", action)
         for idx in range(len(action)):
             output = controller.step(action[idx], **params[idx])
+            if output is None:
+                controller.end_scene()
+                exit()
             if action[idx] == const.ACTION_MOVE_AHEAD[0] and output.return_status == "OBSTRUCTED":
                 print("INFO : Move obstructed by occluder.")
                 const.MOVE_AHEAD_OBSTRUCTED = True

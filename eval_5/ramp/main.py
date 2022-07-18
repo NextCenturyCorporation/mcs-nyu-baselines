@@ -1008,10 +1008,15 @@ if __name__ == '__main__':
     max_list = []
     min_list = []
 
-    controller = mcs.create_controller(config_file_or_dict='../sample_config.ini')
     parser = argparse.ArgumentParser()
     parser.add_argument('--scene_path', type=str)
+    parser.add_argument(
+        '--unity_path',
+        type=str,
+        default='/home/ubuntu/unity_app/MCS-AI2-THOR-Unity-App-v0.5.7.x86_64'
+    )
     args = parser.parse_args()
+    controller = mcs.create_controller(config_file_or_dict='../sample_config.ini', unity_app_file_path=args.unity_path)
     fn = args.scene_path
     if os.path.exists(fn):
         scene_data = mcs.load_scene_json_file(fn)
@@ -1037,6 +1042,9 @@ if __name__ == '__main__':
             recorded_action.extend(action)
         for idx in range(len(action)):
             output = controller.step(action[idx], **params[idx])
+            if output is None:
+                controller.end_scene()
+                exit()
             if action[idx] == const.ACTION_MOVE_AHEAD[0] and output.return_status == "OBSTRUCTED":
                 print("INFO : Move obstructed ahead.")
                 const.MOVE_AHEAD_OBSTRUCTED = True

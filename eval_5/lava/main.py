@@ -17,6 +17,11 @@ explore_right=1
 parser = argparse.ArgumentParser()
 parser.add_argument('--scene_path', type=str)
 parser.add_argument('--right_first',default=False, action="store_true")
+parser.add_argument(
+    '--unity_path',
+    type=str,
+    default='/home/ubuntu/unity_app/MCS-AI2-THOR-Unity-App-v0.5.7.x86_64'
+)
 args = parser.parse_args()
 scene_json_file_path = args.scene_path
 if args.right_first:
@@ -151,7 +156,7 @@ def select_actions(output, model):
 
 
 # Unity app file will be downloaded automatically
-controller = mcs.create_controller(config_file_or_dict='../sample_config.ini')
+controller = mcs.create_controller(config_file_or_dict='../sample_config.ini', unity_app_file_path=args.unity_path)
 #mcs.init_logging()
 scene_data = mcs.load_scene_json_file(scene_json_file_path)
 
@@ -167,9 +172,12 @@ model = torch.hub.load('ultralytics/yolov5', 'custom', path="./best.pt")
 while actions != []:
 	for action in actions:
 		if action=='PickupObject':
-			params={"objectId":"target"}
+			params={"objectImageCoordsX": 300, "objectImageCoordsY": 100}
 		print(output.step_number,action,params,lookup,output.return_status,sep=':')
 		output = controller.step(action, **params)
+		if output is None:
+			controller.end_scene()
+			exit()
 		if output.return_status=='SUCCESSFUL':
 			if action=='PickupObject':
 				print("Object picked up")

@@ -11,6 +11,11 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--scene_path', type=str)
+    parser.add_argument(
+        '--unity_path',
+        type=str,
+        default='/home/ubuntu/unity_app/MCS-AI2-THOR-Unity-App-v0.5.7.x86_64'
+    )
     args = parser.parse_args()
     scene_json_file_path = args.scene_path
     threshold = 0.1
@@ -31,7 +36,7 @@ if __name__ == '__main__':
     #args = parser.parse_args()
 
     # Unity app file will be downloaded automatically
-    controller = mcs.create_controller(config_file_or_dict='../sample_config.ini')
+    controller = mcs.create_controller(config_file_or_dict='../sample_config.ini', unity_app_file_path=args.unity_path)
     # mcs.init_logging()
     scene_data = mcs.load_scene_json_file(scene_json_file_path)
 
@@ -53,6 +58,9 @@ if __name__ == '__main__':
         for idx, action in enumerate(actions):
             # print(output.step_number, action, params[idx], lookup, output.return_status, sep=':')
             output = controller.step(action, **params[idx])
+            if output is None:
+                controller.end_scene()
+                exit()
             if action == const.ACTION_MOVE_AHEAD[0] and output.return_status == "OBSTRUCTED":
                 print("INFO : Move obstructed by Door.")
                 const.MOVE_AHEAD_OBSTRUCTED = True
