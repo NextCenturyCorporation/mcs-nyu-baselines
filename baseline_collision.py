@@ -219,6 +219,8 @@ def run_collision_scene(scene_data, controller, models, base_path="~/logs", num_
     last_pred = None
     for step in range(num_steps):
         output = controller.step("Pass")
+        if output is None:
+            break
 
         if step % 2 != 0:  # stride setting
             if last_pred:
@@ -235,7 +237,7 @@ def run_collision_scene(scene_data, controller, models, base_path="~/logs", num_
         source_img = torch_to_np_img(images[-1])
 
         if step < 84:
-            report[step] = make_step_prediction(choice="plausible", confidence=1)
+            report[step] = make_step_prediction(choice='plausible', confidence=1)
             continue
 
         if motion_start_time is None and background is not None:
@@ -243,7 +245,7 @@ def run_collision_scene(scene_data, controller, models, base_path="~/logs", num_
             x_diff = cv2.absdiff(torch_to_np_img(images[-1]), background)
             x_diff = np.mean(np.float32(x_diff))
             if visualize:
-                print(x_)
+                print(x_diff)
             if x_diff > MOTION_THRESH:
                 motion_start_time = step + 2  # we say the motion starts at the second frame after the first significant motion
             report[step] = make_step_prediction(choice="plausible", confidence=1)
@@ -326,9 +328,8 @@ def run_collision_scene(scene_data, controller, models, base_path="~/logs", num_
 
 
 def main(scene_data: dict, unity_app: str = None):
-    #unity_app_file_path = "PATH_HERE/MCS-AI2-THOR-Unity-App-v0.4.3-linux/MCS-AI2-THOR-Unity-App-v0.4.3.x86_64"
-    MCS_CONFIG_FILE_PATH = 'mcs_config.ini'  # NOTE: I ran the tests with option "size: 450". Different sizes might lead to worse results
-    #raise AttributeError("Please fill out the unity app executable path and config path")
+    MCS_CONFIG_FILE_PATH = 'my_mcs_config.ini'  # NOTE: I ran the tests with option "size: 450". Different sizes might lead to worse results
+    # raise AttributeError("Please fill out the unity app executable path and config path")
     controller = mcs.create_controller(
         config_file_or_dict=MCS_CONFIG_FILE_PATH,
         unity_app_file_path=unity_app
