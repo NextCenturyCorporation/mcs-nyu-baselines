@@ -12,8 +12,11 @@ import machine_common_sense as mcs
 import torch
 import torch.nn as nn
 from shapely.geometry import Polygon
-import sys
 
+font = cv2.FONT_HERSHEY_SIMPLEX
+fontScale = 0.3
+fontColor = (0, 0, 0)
+thickness = 1
 
 def rgb_to_torch_img(img_rgb_pil, out_size=64):
     """
@@ -23,7 +26,7 @@ def rgb_to_torch_img(img_rgb_pil, out_size=64):
     """
     img_np = np.asarray(img_rgb_pil)
     img_np = cv2.resize(img_np, (64, 64), interpolation=cv2.INTER_NEAREST)
-    img_np = np.float32(img_np) / 255.0
+    img_np = np.float32(img_np) / np.float32(255.0)
     edge_map = np.zeros((out_size, out_size), dtype=np.float32)
     ddepth = cv2.CV_32F
     scale = 1
@@ -49,7 +52,7 @@ def rgb_to_torch_img(img_rgb_pil, out_size=64):
 
 def torch_to_np_img(torch_img):
     frame_cv2 = torch_img.detach().cpu().numpy().copy()
-    frame_cv2 = frame_cv2[0, 0]
+    frame_cv2 = np.float32(frame_cv2[0, 0])
     frame_cv2 /= 1.2
     frame_cv2 = np.uint8(np.minimum(frame_cv2, 1.0) * 255.)
     return frame_cv2
@@ -84,29 +87,27 @@ def model_predict(frame_predictor, prior, encoder, decoder, x_in, skip):
     return x_out
 
 
-def model_predict_post(frame_predictor, posterior, encoder, decoder, x_in, x_cur, skip):
-    h, _ = encoder(x_in)
-    z_t = posterior(encoder(x_cur)[0])
-    h = frame_predictor(torch.cat([h, z_t], 1)).detach()
-    x_out = decoder([h, skip])
-    return x_out
-
-
-def model_predict_multi(frame_predictor, prior, posterior, encoder, decoder, x_in, x_cur, skip, t, pred_imgs, pred_horizon):
+def model_predict_multi(frame_predictor, prior, encoder, decoder, x_in, skip, t, pred_imgs, pred_horizon):
     with torch.no_grad():
-        x_out = model_predict_post(frame_predictor, posterior, encoder, decoder, x_in, x_cur, skip)
+        x_out = model_predict(frame_predictor, prior, encoder, decoder, x_in, skip)
+        x_in = x_out  # predict t + 2
 
+        assert pred_horizon % 2 == 0
         p_hidden = [(h[0].detach().clone(), h[1].detach().clone()) for h in prior.hidden]
         f_hidden = [(h[0].detach().clone(), h[1].detach().clone()) for h in frame_predictor.hidden]
-        # predict t+1 through t + horizon
-        for j in range(1, pred_horizon + 1):
+        for j in range(2, pred_horizon + 1, 2):
             x_in = model_predict(frame_predictor, prior, encoder, decoder, x_in, skip)
-            # cv2.imshow('prediction t 5 step',
-            #            cv2.resize(torch_to_np_img(x_in), (384, 384), interpolation=cv2.INTER_NEAREST))
-            # cv2.waitKey(0)
         pred_imgs[t + pred_horizon] = x_in.detach()
         prior.hidden = p_hidden  # restore hidden states
         frame_predictor.hidden = f_hidden  # restore hidden states
+    return x_out
+
+
+def model_predict_posterior(frame_predictor, posterior, encoder, decoder, x_in, skip):
+    h, _ = encoder(x_in)
+    z_t = posterior(h)
+    h = frame_predictor(torch.cat([h, z_t], 1)).detach()
+    x_out = decoder([h, skip])
     return x_out
 
 
@@ -121,8 +122,8 @@ def high_pass(frame, min=10, rad=5):
     return frame
 
 
-def get_polygons_from_img(img, top_n_contours=2, min_area=5*4):
-    img = high_pass(img.copy(), min=12, rad=7)
+def get_polygons_from_img(img, top_n_contours=2, min_area=4*4):
+    img = high_pass(img.copy(), min=8, rad=5)
     contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     contours = sorted(contours, key=cv2.contourArea, reverse=True)
     contours = contours[:top_n_contours]
@@ -178,9 +179,11 @@ def get_implausibility_score(poly_list1: List[Polygon], poly_list2: List[Polygon
 
     # plausibility = 1 / (max(3, max_min_dist) - 2)  # R+ -> [0,1]
     # return 1 - plausibility
-    x = (max_min_dist[1] - thresh) / 2  # this means that when MMD >= 4, we have implausibility score >= 0.5 and <0.5 if not.
+    x = (max_min_dist[
+             1] - thresh) / 2  # this means that when MMD >= 4, we have implausibility score >= 0.5 and <0.5 if not.
     implausibility = 1 / (1 + np.exp(-x))
     return implausibility, max_min_dist[0]
+
 
 def make_step_prediction(choice, confidence, heatmap_img=None):
     if choice == 'plausible':
@@ -198,7 +201,8 @@ def make_step_prediction(choice, confidence, heatmap_img=None):
             "violations_xy_list": xy_list
     }
 
-def run_scene(scene_data, controller, models, base_path="~/logs", num_steps=60, visualize=False, pred_horizon=5):
+
+def run_collision_scene(scene_data, controller, models, base_path="~/logs", num_steps=200, visualize=False, pred_horizon=6):
     report = {}
     frame_predictor, posterior, prior, encoder, decoder = models
 
@@ -211,18 +215,28 @@ def run_scene(scene_data, controller, models, base_path="~/logs", num_steps=60, 
     motion_start_time = None
     skip = None
     pred_imgs = {}
-    imp_score = 0
+    predicted_implausible = [False for i in range(num_steps)]
+    last_pred = None
     for step in range(num_steps):
         output = controller.step("Pass")
         if output is None:
-            print('breaking at step',step,'due to no output from controller')
             break
+
+        if step % 2 != 0:  # stride setting
+            if last_pred:
+                report[step] = make_step_prediction(choice=last_pred[0], confidence=last_pred[1], heatmap_img=last_pred[2])
+            continue
         images.append(rgb_to_torch_img(output.image_list[0]).cuda())
+        # if step > 113:  # manually creates "backwards video" implausibility for testing
+        #     images[-1] = images[-(step - 113)]
+        #     gt_plausible = False
+        # else:
+        #     gt_plausible = True
         if background is None:
             background = torch_to_np_img(images[-1])
         source_img = torch_to_np_img(images[-1])
 
-        if step < 23:
+        if step < 84:
             report[step] = make_step_prediction(choice='plausible', confidence=1)
             continue
 
@@ -233,21 +247,20 @@ def run_scene(scene_data, controller, models, base_path="~/logs", num_steps=60, 
             if visualize:
                 print(x_diff)
             if x_diff > MOTION_THRESH:
-                motion_start_time = step + 1  # we say the motion starts at the second frame after the first significant motion
+                motion_start_time = step + 2  # we say the motion starts at the second frame after the first significant motion
             report[step] = make_step_prediction(choice="plausible", confidence=1)
         elif step == motion_start_time:
             # feed the 5 most recent frames, excluding this frame, into the model.
             _, skip = initialize_model(frame_predictor, posterior, prior, encoder, decoder, images[-6:-1])
         elif step > motion_start_time:
-            if step - motion_start_time <= 2:
-                # let the model simply observe for the first 5 + 2 frames
-                pred_cur = model_predict(frame_predictor, prior, encoder, decoder, images[-2], skip)
+            if step - motion_start_time <= 4:
+                # let the model simply observe for the first 4/2 frames
+                pred_t_1_step = model_predict(frame_predictor, prior, encoder, decoder, images[-2], skip)
             else:
-                pred_cur = model_predict_multi(frame_predictor, prior, posterior, encoder, decoder, images[-2],
-                                                    images[-1], skip, step - 1, pred_imgs, pred_horizon=pred_horizon)
-            pred_cur = torch_to_np_img(pred_cur)
-            # pred_cur = model_predict(frame_predictor, prior, encoder, decoder, images[-2], skip)
-            # compare the prediction 6 steps ahead and the one 1 step ahead
+                # step - 2 because the stride is 2
+                pred_t_1_step = model_predict_multi(frame_predictor, prior, encoder, decoder, images[-2], skip, step - 2,
+                                                    pred_imgs, pred_horizon=pred_horizon)
+            pred_t_1_step = torch_to_np_img(pred_t_1_step)
             if step in pred_imgs:
                 pred_t_5_steps = torch_to_np_img(pred_imgs[step])
                 if visualize:
@@ -259,16 +272,13 @@ def run_scene(scene_data, controller, models, base_path="~/logs", num_steps=60, 
                 if visualize:
                     cv2.imshow('prediction t 5 steps', np.zeros((384, 384)))
 
-
-            # source_diff = cv2.absdiff(source_img, background)
-            # polys_source, source_diff_marked = get_polygons_from_img(source_diff)
-            pred_1_diff = cv2.absdiff(pred_cur, background)
+            pred_1_diff = cv2.absdiff(pred_t_1_step, background)
             polys_pred_1, pred_diff_marked = get_polygons_from_img(pred_1_diff)
 
             if visualize:
                 cv2.imshow('source', cv2.resize(source_img, (384, 384), interpolation=cv2.INTER_NEAREST))
-                cv2.imshow('prediction given current image',
-                           cv2.resize(pred_cur, (384, 384), interpolation=cv2.INTER_NEAREST))
+                cv2.imshow('prediction t 1 step',
+                       cv2.resize(pred_t_1_step, (384, 384), interpolation=cv2.INTER_NEAREST))
             if pred_t_5_steps is not None:
                 pred_5_diff = cv2.absdiff(pred_t_5_steps, background)
                 polys_pred_5, pred_5_diff_marked = get_polygons_from_img(pred_5_diff)
@@ -280,38 +290,53 @@ def run_scene(scene_data, controller, models, base_path="~/logs", num_steps=60, 
                     cv2.fillPoly(imp_heatmap, [pts], int(255 * imp_score))
                 if imp_score > 0.5:
                     report[step] = make_step_prediction(choice="implausible", confidence=(1 - imp_score), heatmap_img=imp_heatmap.copy())
+                    last_pred = ("implausible", 1 - imp_score, imp_heatmap.copy())
+                    predicted_implausible[step] = True
                 else:
                     report[step] = make_step_prediction(choice="plausible", confidence=(1 - imp_score), heatmap_img=imp_heatmap.copy())
+                    last_pred = ("plausible", 1 - imp_score, imp_heatmap.copy())
+                    predicted_implausible[step] = False
                 if visualize:
                     cv2.putText(imp_heatmap, str(imp_score), (20, 20), font, fontScale, 128, thickness)
-                    cv2.imshow('implausibility heatmap', cv2.resize(imp_heatmap, (384, 384), interpolation=cv2.INTER_NEAREST))
+                    cv2.imshow('implausibility heatmap',
+                               cv2.resize(imp_heatmap, (384, 384), interpolation=cv2.INTER_NEAREST))
             else:
                 if visualize:
                     cv2.imshow('implausibility heatmap', np.zeros((384, 384)))
             if visualize:
                 cv2.waitKey(0)
-    if imp_score > 0.5:  # only look at the last implausibility score to make a decision
-        choice = "implausible"
-        conf = imp_score
-    else:
-        choice = "plausible"
-        conf = 1 - imp_score
-    print('choice: {}'.format(choice))
+    detection_interval = range(80, 160, 2)
+    consecutive_implausible = 0
+    choice = "plausible"
+    implausible_time = ""
+    if motion_start_time is None:
+        return
+    if motion_start_time is not None:  # if no motion is detected, just say plausible
+        for t in detection_interval:
+            if predicted_implausible[t]:
+                consecutive_implausible += 1
+            else:
+                consecutive_implausible = 0
+            if consecutive_implausible == pred_horizon // 2 + 2:
+                choice = 'implausible'
+                implausible_time = " at t = " + str(t)
+                # print('choosing implausible at t={}'.format(t))
+                break
+    print('choice: {}{}'.format(choice, implausible_time))
     choice = 1 if choice == 'plausible' else 0
-    controller.end_scene(rating=choice, score=(1 - imp_score), report=report)
+    controller.end_scene(rating=choice, score=choice, report=report)
 
 
 def main(scene_data: dict, unity_app: str = None):
-    MCS_CONFIG_FILE_PATH = 'my_mcs_config.ini'  # NOTE: I ran the tests with option "size: 450". Different sizes might lead to worse results
-    #raise AttributeError("Please fill out the unity app executable path and config path")
+    MCS_CONFIG_FILE_PATH = 'mcs_config.ini'  # NOTE: I ran the tests with option "size: 450". Different sizes might lead to worse results
+    # raise AttributeError("Please fill out the unity app executable path and config path")
     controller = mcs.create_controller(
         config_file_or_dict=MCS_CONFIG_FILE_PATH,
         unity_app_file_path=unity_app
     )
-    #controller = mcs.create_controller(unity_app_file_path, config_file_path=MCS_CONFIG_FILE_PATH)
-    NUMSTEPS = 100
+    NUMSTEPS = 200
     BATCH_SIZE = 1
-    model_path = "trained/GravitySupportTraining"
+    model_path = "trained/CollisionTraining"
 
     models_dir = glob.glob(f'{model_path}/model_*.pth')
     latest_model = sorted(models_dir, key=lambda s: int(s[s.rfind('_e') + 2: s.rfind('.pth')]), reverse=True)[0]
@@ -326,15 +351,13 @@ def main(scene_data: dict, unity_app: str = None):
     prior.batch_size = BATCH_SIZE
     decoder = saved_model['decoder'].eval().cuda()
     encoder = saved_model['encoder'].eval().cuda()
-    PREDICTION_HORIZON = 5
-    run_scene(scene_data, controller, (frame_predictor, posterior, prior, encoder, decoder), num_steps=NUMSTEPS, visualize=False, pred_horizon=PREDICTION_HORIZON)
+
+    PREDICTION_HORIZON = 4
+    run_collision_scene(scene_data, controller, (frame_predictor, posterior, prior, encoder, decoder),
+                        num_steps=NUMSTEPS, visualize=False, pred_horizon=PREDICTION_HORIZON)
 
 
 if __name__ == '__main__':
-    font = cv2.FONT_HERSHEY_SIMPLEX
-    fontScale = 0.3
-    fontColor = (0, 0, 0)
-    thickness = 1
     if len(sys.argv) < 2:
         sys.exit('Usage: python <script> <json_scene_filename>')
     scene_data, status = mcs.load_scene_json_file(sys.argv[1])
