@@ -50,14 +50,14 @@ def find_lip(img, i):
     img_blur_r = cv.GaussianBlur(img_gray_r, (3, 3), 0)
     edges_r = cv.Canny(image=img_blur_r, threshold1=20, threshold2=40)
     sobelx_r = cv.Sobel(edges_r, cv.CV_64F, 1, 0, ksize=5)
-    cv.imwrite('RCrop.png', right_crop)
-    cv.imwrite('RCanny.png', edges_r)
+    #cv.imwrite('RCrop.png', right_crop)
+    #cv.imwrite('RCanny.png', edges_r)
 
     img_gray_l = cv.cvtColor(left_crop, cv.COLOR_BGR2GRAY)
     img_blur_l = cv.GaussianBlur(img_gray_l, (3, 3), 0)
     edges_l = cv.Canny(image=img_blur_l, threshold1=20, threshold2=40)
-    cv.imwrite('LCrop.png', left_crop)
-    cv.imwrite('LCanny.png', edges_l)
+    #cv.imwrite('LCrop.png', left_crop)
+    #cv.imwrite('LCanny.png', edges_l)
 
     indices_l = np.where(edges_l != [0])
     # coordinates_l=zip(indices_l[0],indices_l[1])
@@ -114,7 +114,7 @@ def find_ball(img, model):
     bottom_right = (0, 0)
     for idx, res in loc_result.iterrows():
         # print("FOUND:",res['name'],":",res['confidence'])
-        if (res['name'] == 'sports ball') and (res['confidence'] > threshold) and (found == False):
+        if (res['name'] == 'Ball') and (res['confidence'] > threshold) and (found == False):
             found = True
             top_left = (int(res['xmin']), int(res['ymin']))
             bottom_right = (int(res['xmax']), int(res['ymax']))
@@ -150,5 +150,5 @@ def select_actions(output, model):
     actions = ['Pass']
     params = [{} for _ in range(len(actions))]
     print("Final Ball region:", ball_region)
-    saveimage(img, output.step_number)
+    #saveimage(img, output.step_number)
     return actions, params

@@ -5,21 +5,14 @@ import numpy as np
 from PIL import Image
 
 import functions as func
-import constants as const
+import spatial_scene.constants as const
+from spatial_scene.run_yolo_detector import create_bounding_box
 import sys
 sys.path.insert(1, '..')
 from functions import Region
 
 
 left_or_right = "unknown"
-
-
-def create_bounding_box(img, loc_result, pred_class):
-    color = (0, 128, 0) if pred_class == const.SPORTS_BALL else (255, 0, 0)
-    for idx, res in loc_result.iterrows():
-        if (res['name'] == pred_class) and (res['confidence'] > const.threshold):
-            cv.rectangle(img, (int(res['xmin']), int(res['ymax'])), (int(res['xmax']), int(res['ymin'])), color, 2)
-
 
 def navigate_to_door(ball_region):
     actions = []

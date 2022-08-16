@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# In[2]:
+
+
 import import_ipynb
 import constant as const
 import copy
 import sys
-import argparse
 
 import cv2 as cv
 import numpy as np
@@ -14,36 +16,43 @@ from PIL import Image
 
 import glob
 import os
-import argparse
 
 # import spatial_scene.constants as const
 import machine_common_sense as mcs
 
-def pickup_ball(model, output, controller):
-    img = np.array(output.image_list[0])
-    predictions = model(img, size = 640)
-    loc_result = predictions.pandas().xyxy[0]
-    cw = int(img.shape[1] / 2) 
-    ch = int(img.shape[0] / 2)
-    for idx, res in loc_result.iterrows():
-        if (res['name'] == "ball") and (res['confidence'] > const.threshold):
-            params = {'objectImageCoordsX': res['xmin']+ (res['xmax'] - res['xmin']) // 2,
-                                 'objectImageCoordsY': res['ymin']+ (res['ymax'] - res['ymin']) // 2}
-        else: 
-            params = {'objectImageCoordsX': 300,'objectImageCoordsY': 200}
-        if controller.step("PickupObject", **params).return_status != "SUCCESSFUL":
-            if res['xmin']+ (res['xmax'] - res['xmin']) // 2 <= cw / 2:
-                controller.step("RotateLeft")
-            else:
-                controller.step("RotateRight")
-            if controller.step("PickupObject", **params).return_status == "OUT_OF_REACH":
-                controller.step("MoveAhead")
-            else:
-                controller.step("MoveBack")
-            return False
-        else:
-            return True
-    return False
+
+
+# def check_for_agent(im, loc_result, cw):
+#     #if soccer ball is in the vicinity of detected bounding boxes, 
+#     #then return move left or move right sequences, else return none
+    
+#     for idx, res in loc_result.iterrows():
+#         # print(res['ymin'])
+#         # print("int(res['ymin'] - const.TOP_BOTTOM_CUSHION): ", int(res['ymin'] - const.TOP_BOTTOM_CUSHION))
+#         # print("int(res['ymax'] + const.TOP_BOTTOM_CUSHION): ", int(res['ymax'] + const.TOP_BOTTOM_CUSHION))
+#         # print("int(res['xmin'] - const.LEFT_RIGHT_CUSHION): ", int(res['xmin'] - const.LEFT_RIGHT_CUSHION))
+#         # print("int(res['xmax'] + const.LEFT_RIGHT_CUSHION): ", int(res['xmax'] + const.LEFT_RIGHT_CUSHION))
+        
+#         #occ_img creates a bigger bounding box? 
+#         occ_img = im[
+#                   max(int(res['ymin'] - const.TOP_BOTTOM_CUSHION), 0): # TOP_BOTTOM_CUSHION=20
+#                   max(int(res['ymax'] + const.TOP_BOTTOM_CUSHION), 0),
+#                   max(int(res['xmin'] - const.LEFT_RIGHT_CUSHION), 0): # LEFT_RIGHT_CUSHION=20
+#                   max(int(res['xmax'] + const.LEFT_RIGHT_CUSHION), 0)
+#                   ]
+#         occ_img = cv.cvtColor(occ_img, cv.COLOR_BGR2GRAY)
+#         cv.imwrite('ROI_{}.png'.format(idx), occ_img)
+#         rows, cols = occ_img.shape
+#         number_of_white_pix = sum(180 <= occ_img[i][j] <= 255 for i in range(rows) for j in range(cols)) 
+#         # using white pixels to identify soccor ball in the enlarged bounding box?
+#         print("number_of_white_pix for idx ", idx, ": ", number_of_white_pix)
+#         if number_of_white_pix > 0:
+#             const.SCENE_HAS_SOCCER = True
+#             if res['xmin'] < cw:
+#                 return const.INITIAL_MOVE_LEFT_SEQ, [{} for _ in range(len(const.INITIAL_MOVE_LEFT_SEQ))]
+#             else:
+#                 return const.INITIAL_MOVE_RIGHT_SEQ, [{} for _ in range(len(const.INITIAL_MOVE_RIGHT_SEQ))]
+#     return None, None
 
 
 def create_bounding_box(img, loc_result, pred_class):  
@@ -64,6 +73,25 @@ def create_bounding_box(img, loc_result, pred_class):
     for idx, res in loc_result.iterrows():
         if (res['name'] == pred_class) and (res['confidence'] > const.threshold):
             cv.rectangle(img, (int(res['xmin']), int(res['ymax'])), (int(res['xmax']), int(res['ymin'])), color, 2)
+
+# def find_bigger_occluder(loc_result, cw):
+#     ##if any bounding box exceeds width of - sys.maxsize and height >25, then return move left 
+#     ##sequence if x-min of that bounding box is on left side of image, return move right sequence otherwise
+
+#     max_width = - sys.maxsize 
+#     ## maximum value of Py_ssize_t depending upon the architecture
+#     bigger_occ_idx = -1
+#     for idx, res in loc_result.iterrows():
+#         occ_height = abs(res['ymax'] - res['ymin'])
+#         occ_width = abs(res['xmax'] - res['xmin'])
+#         if occ_width > max_width and occ_height > 25:
+#             max_width = occ_width
+#             bigger_occ_idx = idx
+#     # print('loc_result: ', type(loc_result))
+#     if loc_result['xmin'][bigger_occ_idx] < cw:
+#         return const.INITIAL_MOVE_LEFT_SEQ, [{} for _ in range(len(const.INITIAL_MOVE_LEFT_SEQ))]
+#     else:
+#         return const.INITIAL_MOVE_RIGHT_SEQ, [{} for _ in range(len(const.INITIAL_MOVE_RIGHT_SEQ))]
 
 
 def find_agent(loc_result, cw, first_action_):
@@ -157,8 +185,8 @@ def select_action(output, model):
     img_array = np.array(img_pil)
     img = cv.cvtColor(img_array, cv.COLOR_RGB2BGR)
     #cv2.cvtColor() method is used to convert an image from one color space to another.
-    #if not first_action:
-    #    img = img[:, 50:] ##why is this needed? 
+    if not first_action:
+        img = img[:, 50:] ##why is this needed? 
         
     display_image = copy.deepcopy(img)
     predictions = model(img, size=640)
@@ -200,7 +228,7 @@ def select_action(output, model):
         const.SCENE_HAS_AGENT = True
         create_bounding_box(display_image, loc_result, const.AGENT)
         
-    #cv.imwrite("agent_scene" + str(epoch) + ".png", display_image)
+    cv.imwrite("agent_scene" + str(epoch) + ".png", display_image)
     epoch = epoch + 1
     if first_action and const.AGENT in predicted_classes:
         first_action = False 
@@ -256,40 +284,32 @@ def select_action(output, model):
 
     return actions, parameters
 
+
 if __name__ == '__main__':
     first_action = True
     first_side = 'left'
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--scene_path', type=str)
-    parser.add_argument(
-        '--unity_path',
-        type=str,
-        default='/home/ubuntu/unity_app/MCS-AI2-THOR-Unity-App-v0.5.7.x86_64'
-    )
-    args = parser.parse_args()
-    fn = args.scene_path
-    #fn = sys.argv[1]
-    #if os.path.exists(fn):
-    scene_data = mcs.load_scene_json_file(fn)
-    controller = mcs.create_controller(config_file_or_dict='../sample_config.ini', unity_app_file_path=args.unity_path)
+#     controller = mcs.create_controller(config_file_or_dict={'metadata': 'oracle'})
+    fn = sys.argv[1]
+    if os.path.exists(fn):
+        scene_data = mcs.load_scene_json_file(fn)
+
+#     os.chdir('/Users/Nina/opt/anaconda3/envs/myenv/lib/python3.8/site-packages/machine_common_sense/')
+
+#     controller = mcs.create_controller(config_file_or_dict={'metadata': 'oracle'})
+#     scene_data = mcs.load_scene_json_file(glob.glob('./MCS/scenes/baseline_agent_identification/*.json')[4])
     output = controller.start_scene(scene_data)
 
     # _, params = output.action_list[0]
     action = const.ACTION_PASS
     params = [{}]
-    agent_model = torch.hub.load('ultralytics/yolov5', 'custom', path='./best_agent.pt')
-    ball_model = torch.hub.load('ultralytics/yolov5', 'custom', path='./ball.pt')
+    model = torch.hub.load('ultralytics/yolov5', 'custom', path='../models/best.pt')
 
     epoch = 0
-    const.threshold = 0.15
     while action != '':
         print("#" * 20, " EPOCH: ", epoch, "#" * 20)
         print("Actions to execute: ", action)
         for idx in range(len(action)):
             output = controller.step(action[idx], **params[idx])
-            if output is None:
-                controller.end_scene()
-                exit()
             if action[idx] == const.ACTION_MOVE_AHEAD[0] and output.return_status == "OBSTRUCTED":
                 print("INFO : Move obstructed by occluder.")
                 const.MOVE_AHEAD_OBSTRUCTED = True
@@ -299,8 +319,8 @@ if __name__ == '__main__':
                     output = controller.step('Pass')
                 output = controller.step('LookDown')
                 output = controller.step('LookDown')
-                while not pickup_ball(ball_model, output, controller):
-                    continue
+                
+
 
                 print("INFO: Picked Up soccer ball. Ending scene! :)")
                 controller.end_scene()
@@ -309,7 +329,7 @@ if __name__ == '__main__':
 #                 print("INFO: Picked Up soccer ball. Ending scene! :)")
 #                 controller.end_scene()
 #                 exit(0)
-        action, params = select_action(output, agent_model)
+        action, params = select_action(output, model)
 
     controller.end_scene()
 

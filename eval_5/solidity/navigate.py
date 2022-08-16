@@ -6,14 +6,13 @@ from PIL import Image
 
 import functions as func
 import constants as const
-
+#from spatial_scene.run_yolo_detector import create_bounding_box
 
 def create_bounding_box(img, loc_result, pred_class):
-    color = (0, 128, 0) if pred_class == const.SPORTS_BALL else (255, 0, 0)
+    color = (0, 128, 0) if pred_class == "Ball" else (255, 0, 0)
     for idx, res in loc_result.iterrows():
         if (res['name'] == pred_class) and (res['confidence'] > const.threshold):
             cv.rectangle(img, (int(res['xmin']), int(res['ymax'])), (int(res['xmax']), int(res['ymin'])), color, 2)
-
 
 def navigate_to_door(ball_region):
     actions = []
@@ -48,35 +47,52 @@ def navitage_to_ball(output, model, epoch):
     cv.rectangle(display_image, (cw - 5, ch - 5), (cw + 5, ch + 5), 255, 2)
     actions, parameters, predicted_classes = [], [], []
     loc_result = predictions.pandas().xyxy[0]
+    ball_x = 300
+    ball_y = 200
     for idx, res in loc_result.iterrows():
         if res['confidence'] >= const.threshold:
             predicted_classes.append(res['name'])
-            if res['name'] == 'sports ball':
+            if res['name'] == 'Ball':
+                ball_x = (res['xmax'] + res['xmin']) / 2
+                ball_y = (res['ymax'] + res['ymin']) / 2
                 const.RIGHT_WIDTH = res['xmax']
     print("Loc Result:", loc_result)
     print("predicted_classes:", predicted_classes)
-    create_bounding_box(display_image, loc_result, const.SPORTS_BALL)
+    create_bounding_box(display_image, loc_result, "Ball")
     #cv.imwrite("ball_scene" + str(epoch) + ".png", display_image)
     actions = []
-    if const.SPORTS_BALL in predicted_classes:
-        actions.extend(const.STICKY_MOVE_AHEAD)
+    if epoch <= 107:
+        actions.extend(['LookDown'])
+        actions.extend(['MoveAhead']*7)
+        actions.extend(['Pass'])
+    if 'Ball' not in predicted_classes:
+        actions.extend(['RotateLeft', 'Pass'])
+    elif const.MOVE_AHEAD_OBSTRUCTED:
+        actions.extend(['RotateLeft', 'MoveAhead', 'Pass'])
+        const.MOVE_AHEAD_OBSTRUCTED = False
     else:
-        actions.extend(const.STICKY_MOVE_AHEAD)
-        if const.RIGHT_WIDTH < cw:
-            actions.extend(const.ACTION_ROTATE_LEFT * 9)
-            actions.extend(['LookDown', 'LookDown'])
-        else:
-            actions.extend(const.ACTION_ROTATE_RIGHT * 9)
-            actions.extend(['LookDown', 'LookDown'])
+        actions.extend(['MoveAhead'])
+        actions.extend(['Pass'])
+    #if const.SPORTS_BALL in predicted_classes:
+    #    actions.extend(const.STICKY_MOVE_AHEAD)
+    #else:
+    #    actions.extend(const.STICKY_MOVE_AHEAD)
+    #    if const.RIGHT_WIDTH < cw:
+    #        actions.extend(const.ACTION_ROTATE_LEFT * 9)
+    #        actions.extend(['LookDown', 'LookDown'])
+    #    else:
+    #        actions.extend(const.ACTION_ROTATE_RIGHT * 9)
+    #        actions.extend(['LookDown', 'LookDown'])
 
     actions.extend(const.PICK_UP_SEQUENCE)
     params = [{} for _ in range(len(actions))]
-    params[-1] = {"objectImageCoordsX": 300, "objectImageCoordsY": 100}
+    #params[-1] = {"objectId": "target"}
+    params[-1] = {'objectImageCoordsX': ball_x, 'objectImageCoordsY': ball_y}
     return actions, params
 
 
 def select_action(output, model, ball_region, epoch):
-    if const.MOVE_AHEAD_OBSTRUCTED:
+    if const.MOVE_AHEAD_OBSTRUCTED or epoch >= 106:
         if const.SCENE_HAS_SOCCER_BALL:
             return navitage_to_ball(output, model, epoch)
         else:

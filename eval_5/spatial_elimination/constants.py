@@ -1,8 +1,11 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
+#STICKY_MOVE_AHEAD = [
+#    'MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveAhead',
+#    'MoveAhead'
+#]
 STICKY_MOVE_AHEAD = [
-    'MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveAhead',
-    'MoveAhead'
+    'MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveAhead'
 ]
 INITIAL_MOVE_RIGHT_SEQ = [
     'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight',
@@ -13,9 +16,13 @@ INITIAL_MOVE_LEFT_SEQ = [
     'MoveLeft', 'MoveLeft', 'MoveLeft', 'MoveLeft', 'MoveLeft', 'MoveLeft', 'MoveLeft'
 ]
 OCCLUDER_AHEAD_SEQ = [
-    'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveAhead',
-    'MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveLeft', 'MoveLeft', 'MoveLeft', 'MoveLeft', 'RotateLeft', 'RotateLeft',
-    'RotateLeft', 'RotateLeft', 'RotateLeft', 'RotateLeft', 'LookDown'
+    'MoveBack', 'MoveBack', 'MoveBack', 'MoveBack', 'MoveBack', 'MoveBack', 'MoveBack', 'MoveBack', 
+    'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight',
+    'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight',
+    'RotateLeft', 'RotateLeft', 'RotateLeft', 'RotateLeft', 'RotateLeft', 'RotateLeft', 
+    'RotateLeft', 'RotateLeft', 'RotateLeft',
+    'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight',
+    'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight',
 ]
 PICK_UP_SEQUENCE = [
     'PickupObject'

@@ -8,7 +8,6 @@ import import_ipynb
 import constant as const
 import copy
 import sys
-import argparse
 
 import cv2 as cv
 import numpy as np
@@ -69,7 +68,7 @@ def check_for_ball(im, loc_result, cw):
                   max(int(res['xmax'] + const.LEFT_RIGHT_CUSHION), 0)
                   ]
         occ_img = cv.cvtColor(occ_img, cv.COLOR_BGR2GRAY)
-        #cv.imwrite('ROI_{}.png'.format(idx), occ_img)
+        cv.imwrite('ROI_{}.png'.format(idx), occ_img)
         rows, cols = occ_img.shape
         number_of_white_pix = sum(180 <= occ_img[i][j] <= 255 for i in range(rows) for j in range(cols)) 
         # using white pixels to identify soccor ball in the enlarged bounding box?
@@ -294,6 +293,114 @@ def find_ball(img, model):
             top_left = (int(res['xmin']), int(res['ymin']))
             bottom_right = (int(res['xmax']), int(res['ymax']))
     return found, top_left, bottom_right
+        
+    
+def find_lip(output, i):
+    image = output.image_list[0]
+    pixels = list(image.getdata())
+    img_pil = Image.new(image.mode, image.size) 
+    img_pil.putdata(pixels)
+    img_array = np.array(img_pil)
+    img = cv.cvtColor(img_array, cv.COLOR_BGR2GRAY)
+    img_blur = cv.GaussianBlur(img, (3, 3), 0)
+    edges = cv.Canny(image=img_blur, threshold1=20, threshold2=40)
+
+    w, h = int(img.shape[1]), int(img.shape[0])
+    cw, ch = int(w / 2), int(h / 2)
+    if i == 0:
+        right_crop = img[ch -80:ch + 80, cw + 40:]  # top_left[0]:bottom_right[0]]
+        left_crop = img[ch -80:ch + 80, :cw - 40]  # top_left[0]:bottom_right[0]]
+    elif i == 1:
+        right_crop = img[ch + 80:ch + 100, cw + 70:]  # top_left[0]:bottom_right[0]]
+        left_crop = img[ch + 80:ch + 100, :cw - 70]  # top_left[0]:bottom_right[0]]
+#     # cv.line(img,(cw-70,0),(cw-70,img.shape[0]-1),(0,255,0),2)
+#     # cv.line(img,(cw-180,0),(cw-150,img.shape[0]-1),(0,255,0),2)
+#     # cv.line(img,(cw+70,0),(cw+70,img.shape[0]-1),(255,0,0),2)
+#     # cv.line(img,(cw+150,0),(cw+150,img.shape[0]-1),(255,0,0),2)
+
+#     img_gray_r = cv.cvtColor(right_crop, cv.COLOR_BGR2GRAY)
+#     img_blur_r = cv.GaussianBlur(img_gray_r, (3, 3), 0)
+#     edges_r = cv.Canny(image=img_blur_r, threshold1=20, threshold2=40)
+#     sobelx_r = cv.Sobel(edges_r, cv.CV_64F, 1, 0, ksize=5)
+
+    
+#     cv.imwrite('RCanny.png', edges_r)
+    
+#     img_gray_l = cv.cvtColor(left_crop, cv.COLOR_BGR2GRAY)
+#     img_blur_l = cv.GaussianBlur(img_gray_l, (3, 3), 0)
+#     edges_l = cv.Canny(image=img_blur_l, threshold1=20, threshold2=40)
+#     cv.imwrite('LCanny.png', edges_l)
+
+#     indices_l = np.where(edges_l != [0])
+#     # coordinates_l=zip(indices_l[0],indices_l[1])
+    
+#     indices_r = np.where(edges_r != [0])
+    indices_l=[]
+    indices_r=[]
+    for ix,x in enumerate([right_crop, left_crop]):
+        
+#         print(ix, 'ix in find_lip enumerate')
+        
+        thresh = cv.threshold(x, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)[1]
+
+        vertical_kernel = cv.getStructuringElement(cv.MORPH_RECT, (1,10))
+        detect_vertical = cv.morphologyEx(thresh, cv.MORPH_OPEN, vertical_kernel, iterations=2)
+        cnts = cv.findContours(detect_vertical, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+        cnts = cnts[0] if len(cnts) == 2 else cnts[1]
+        
+        for c in cnts:
+            cv.drawContours(x, [c], -1, (36,255,12), 2)
+        
+        if ix==0:
+            
+            cv.imwrite('RContour.png', x)
+        else:
+            cv.imwrite('LContour.png', x)
+
+        y_x =dict()
+
+        if len(get_xy_list_from_contour(cnts))>2:
+            for i in range(len(get_xy_list_from_contour(cnts))):
+                z = get_xy_list_from_contour(cnts)[i]
+                for ix in range(len(z)):
+                    if z[ix][0] in y_x.keys():
+                        y_x[z[ix][0]].append(z[ix][1])
+                    else:
+                        y_x.update({z[ix][0]:[z[ix][1]]})
+        elif len(get_xy_list_from_contour(cnts))==1:
+            z = get_xy_list_from_contour(cnts)[0]
+            for ix in range(len(z)):
+                    if z[ix][0] in y_x.keys():
+                        y_x[z[ix][0]].append(z[ix][1])                
+        if ix == 0:
+            indices_r = y_x.keys()
+        elif ix==1:
+            indices_l = y_x.keys()
+#         print(indices_r)
+#         print(indices_l)
+                    
+
+    print("Shape:", left_crop.shape)
+    if ((len(indices_l) == 0) and (len(indices_r) == 0)):
+        print('cant find edges')
+        return const.STICKY_MOVE_AHEAD,[{} for _ in range(len(const.STICKY_MOVE_AHEAD))]
+    
+    elif (len(indices_l) != 0):
+        print('max_l', max(indices_l))
+        if max(indices_l) > left_crop.shape[1]/4:
+            return const.ON_RAMP_SEQ_L, [{} for _ in range(len(const.ON_RAMP_SEQ_L))]
+        else:
+            return const.STICKY_MOVE_AHEAD, [{} for _ in range(len(const.STICKY_MOVE_AHEAD))]
+        
+    elif (len(indices_r[0]) != 0):
+        print('max_r', max(indices_r))
+        if min(indices_r) < right_crop.shape[1]*.75:
+            return const.ON_RAMP_SEQ_R, [{} for _ in range(len(const.ON_RAMP_SEQ_R))]
+        else:
+            return const.STICKY_MOVE_AHEAD, [{} for _ in range(len(const.STICKY_MOVE_AHEAD))]
+       ######## to be continued 
+
+    
     
 def ramp_detect(output):
     image = output.image_list[0]
@@ -344,7 +451,7 @@ def horizontal_detector(output,num):
     for c in cnts:
         cv.drawContours(img, [c], -1, (36,255,12), 2)
         
-    #cv.imwrite('detector_h.png', img)
+    cv.imwrite('detector_h.png', img)
 
     y_x =dict()
     symmetric = 0
@@ -405,7 +512,7 @@ def vertical_detector(output,num, num2):
     for c in cnts:
         cv.drawContours(img, [c], -1, (36,255,12), 2)
         
-    #cv.imwrite('detector_v.png', img)
+    cv.imwrite('detector_v.png', img)
     
     y_x =dict()
     symmetric = 0
@@ -466,6 +573,65 @@ def find_ramp(output, num):
     
         
     
+    
+        
+# def find_ramp():
+#     new_list = []
+#     for i in range(0,len(const.CORNER_COUNT)-1):
+#         x = const.CORNER_COUNT[i] - const.CORNER_COUNT[i+1]
+#         new_list.append(x)
+#     print('list of difference between corners', new_list)
+    
+#     actions = []
+#     parameters = []
+#     if sum(1 for number in new_list if number < 0) >= 1:
+#         loc = negative_loc(new_list)
+#         if len(loc)>1:
+#             const.RAMP==True
+#             for ix, x in enumerate(loc):
+#                 if (ix+1)<=len(loc):
+#                     if (loc[ix+1]-loc[ix])>1:
+#                         #none consecutive negative values from new_list
+#                         #scenario 1: scene 1
+#                         corner_count = 0
+#                         for corner in const.CORNER_COUNT[loc[ix]:(loc[ix+1]+1)] :
+#                             if corner >95:
+#                                 corner_count +=1
+
+#                         if corner_count >=2:
+#                             print('detected two ramps, choosing first ramp')
+#                             num = loc[ix]
+#                             for z in range(1,loc[ix]):
+#                                 actions.extend(const.ROTATE_RIGHT_SEQ_5)
+#                                 parameters.extend([{} for _ in range(len(const.ROTATE_RIGHT_SEQ_5))])
+#                             actions.extend(const.STICKY_MOVE_AHEAD_2)
+#                             parameters.extend([{} for _ in range(len(const.STICKY_MOVE_AHEAD_2))])
+#                             print('rotate right x5 # of times', loc[ix]+1)
+#                             on_ramp = True
+#                             return actions, parameters
+                        
+#                 #if all consecutive then:
+#                 for j in range(1,loc[0]):
+#                     actions.extend(const.ROTATE_RIGHT_SEQ_5)
+#                     parameters.extend([{} for _ in range(len(const.ROTATE_RIGHT_SEQ_5))])
+#                 actions.extend(const.STICKY_MOVE_AHEAD_2)
+#                 parameters.extend([{} for _ in range(len(const.STICKY_MOVE_AHEAD_2))])
+#                 print('rotate right x5 # of times', loc[0]+1)
+#                 on_ramp = True
+#                 return actions, parameters                              
+#         elif len(loc)==1:
+#             for x in range(1,len(loc)):
+#                 actions.extend(const.ROTATE_RIGHT_SEQ_5)
+#                 parameters.extend([{} for _ in range(len(const.ROTATE_RIGHT_SEQ_5))])
+#                 print('rotate right x5 # of times', loc+1)
+#                 const.RAMP==True
+#                 return actions, parameters
+#         else:
+#             print('ramp not detected after scanning')
+#             #what to do next?
+                      
+        
+
 
 def select_action(output, model):
     #output: output = controller.step(action[idx], **params[idx])
@@ -514,7 +680,7 @@ def select_action(output, model):
         const.SCENE_HAS_SOCCER_BALL = True
         create_bounding_box(display_image, loc_result, const.SPORTS_BALL)
 
-    #cv.imwrite("moving_ball_scene" + str(epoch) + ".png", display_image)
+    cv.imwrite("moving_ball_scene" + str(epoch) + ".png", display_image)
     epoch = epoch + 1
     if first_action and const.SPORTS_BALL in predicted_classes:
         first_action = False
@@ -900,16 +1066,9 @@ if __name__ == '__main__':
     max_list = []
     min_list = []
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--scene_path', type=str)
-    parser.add_argument(
-        '--unity_path',
-        type=str,
-        default='/home/ubuntu/unity_app/MCS-AI2-THOR-Unity-App-v0.5.7.x86_64'
-    )
-    args = parser.parse_args()
-    controller = mcs.create_controller(config_file_or_dict='../sample_config.ini', unity_app_file_path=args.unity_path)
-    fn = args.scene_path
+#     controller = mcs.create_controller(config_file_or_dict={'metadata': 'oracle'})
+    
+    fn = sys.argv[1]
     if os.path.exists(fn):
         scene_data = mcs.load_scene_json_file(fn)
         
@@ -918,7 +1077,7 @@ if __name__ == '__main__':
     # _, params = output.action_list[0]
     action = const.ACTION_LOOK_DOWN
     params = [{}]
-    model = torch.hub.load('ultralytics/yolov5', 'custom', path='./best_v11.pt')
+    model = torch.hub.load('ultralytics/yolov5', 'custom', path='../models/best_v11.pt')
 
     epoch = 0
     move_ahead_count = 0
@@ -934,9 +1093,6 @@ if __name__ == '__main__':
             recorded_action.extend(action)
         for idx in range(len(action)):
             output = controller.step(action[idx], **params[idx])
-            if output is None:
-                controller.end_scene()
-                exit()
             if action[idx] == const.ACTION_MOVE_AHEAD[0] and output.return_status == "OBSTRUCTED":
                 print("INFO : Move obstructed ahead.")
                 const.MOVE_AHEAD_OBSTRUCTED = True
@@ -964,3 +1120,11 @@ if __name__ == '__main__':
     controller.end_scene()
     
 
+#if no ball & no ramp detected, get off ramp? 
+#record last location of ball. if high up scan ramp, else get off 
+#if detected ball is really high up then not off ramp, but find up ramp 
+#can't detect horizontal line in certain scene when the ramp is a particular texture 
+#look down and scan? look for corners 
+
+
+# 

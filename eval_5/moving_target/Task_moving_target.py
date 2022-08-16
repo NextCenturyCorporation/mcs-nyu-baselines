@@ -8,7 +8,6 @@ import import_ipynb
 import constant as const
 import copy
 import sys
-import argparse
 
 import cv2 as cv
 import numpy as np
@@ -39,6 +38,15 @@ class Region(enum.Enum):
 ball_region = Region.unknown
 lip_region = Region.unknown
 
+def saveimage(img, stepn):
+    if stepn < 10:
+        cv.imwrite("output_images/lava" + str(stepn) + ".png", img)
+    elif stepn < 100:
+        cv.imwrite("output_images/lavb" + str(stepn) + ".png", img)
+    else:
+        cv.imwrite("output_images/lavc" + str(stepn) + ".png", img)
+        
+
 
 def check_for_ball(im, loc_result, cw):
     #if soccer ball is in the vicinity of detected bounding boxes, 
@@ -59,7 +67,7 @@ def check_for_ball(im, loc_result, cw):
                   max(int(res['xmax'] + const.LEFT_RIGHT_CUSHION), 0)
                   ]
         occ_img = cv.cvtColor(occ_img, cv.COLOR_BGR2GRAY)
-        #cv.imwrite('ROI_{}.png'.format(idx), occ_img)
+        cv.imwrite('ROI_{}.png'.format(idx), occ_img)
         rows, cols = occ_img.shape
         number_of_white_pix = sum(180 <= occ_img[i][j] <= 255 for i in range(rows) for j in range(cols)) 
         # using white pixels to identify soccor ball in the enlarged bounding box?
@@ -92,6 +100,53 @@ def create_bounding_box(img, loc_result, pred_class):
         if (res['name'] == pred_class) and (res['confidence'] > const.threshold):
             cv.rectangle(img, (int(res['xmin']), int(res['ymax'])), (int(res['xmax']), int(res['ymin'])), color, 2)
 
+# def find_bigger_occluder(loc_result, cw):
+#     ##if any bounding box exceeds width of - sys.maxsize and height >25, then return move left 
+#     ##sequence if x-min of that bounding box is on left side of image, return move right sequence otherwise
+
+#     max_width = - sys.maxsize 
+#     ## maximum value of Py_ssize_t depending upon the architecture
+#     bigger_occ_idx = -1
+#     for idx, res in loc_result.iterrows():
+#         occ_height = abs(res['ymax'] - res['ymin'])
+#         occ_width = abs(res['xmax'] - res['xmin'])
+#         if occ_width > max_width and occ_height > 25:
+#             max_width = occ_width
+#             bigger_occ_idx = idx
+#     # print('loc_result: ', type(loc_result))
+#     if loc_result['xmin'][bigger_occ_idx] < cw:
+#         return const.INITIAL_MOVE_LEFT_SEQ, [{} for _ in range(len(const.INITIAL_MOVE_LEFT_SEQ))]
+#     else:
+#         return const.INITIAL_MOVE_RIGHT_SEQ, [{} for _ in range(len(const.INITIAL_MOVE_RIGHT_SEQ))]
+
+
+# def find_ball(loc_result, cw, first_action_):
+#     ##loc_result: 
+#     # results.pandas().xyxy[0]  # im predictions (pandas)
+#     # #      xmin    ymin    xmax   ymax  confidence  class    name
+#     # # 0  749.50   43.50  1148.0  704.5    0.874023      0  person
+#     # # 2  114.75  195.75  1095.0  708.0    0.624512      0  person
+#     # # 3  986.00  304.00  1028.0  420.0    0.286865     27     tie
+#     # cw = int(display_image.shape[1] / 2) 
+    
+#     # returns: move right sequences of actions if x-min of boundary box around ball 
+#     #is to the right of the center of image, left otherwise
+# #     global first_side
+#     for idx, res in loc_result.iterrows():
+#         if (res['name'] == const.SPORTS_BALL) and (res['confidence'] > const.threshold) and (first_action_==True):
+#             if res['xmin'] > cw: 
+#                 first_side = 'right'
+#                 return const.INITIAL_MOVE_RIGHT_SEQ_1, [{} for _ in range(len(const.INITIAL_MOVE_RIGHT_SEQ_1))] 
+#             else:
+#                 first_side = 'left'
+#                 return const.INITIAL_MOVE_LEFT_SEQ_1, [{} for _ in range(len(const.INITIAL_MOVE_LEFT_SEQ_1))]
+            
+#         elif (res['name'] == const.AGENT) and (res['confidence'] > const.threshold) and (first_action_==False):
+#             if res['xmin'] > cw: 
+#                 return const.MOVE_RIGHT_SEQ_1, [{} for _ in range(len(const.MOVE_RIGHT_SEQ_1))] 
+#             else:
+#                 return const.MOVE_LEFT_SEQ_1, [{} for _ in range(len(const.MOVE_LEFT_SEQ_1))]
+
                 
         
             
@@ -119,24 +174,16 @@ def navigate(loc_result, cw, ch, actions, parameters, pred_class, epoch):
                 const.LEFT_RIGHT_CUSHION -= 10
                 const.TOP_BOTTOM_CUSHION -= 10
             if cw < left_border:
-                if epoch <= 6:
-                    actions.extend(['MoveRight', 'MoveRight'])
-                    parameters.extend([{}, {}])
-                else:
-                    actions.extend(const.ROTATE_RIGHT_AHEAD)
-                    parameters.extend([{} for _ in range(len(const.ROTATE_RIGHT_AHEAD))])
+                actions.extend(const.ROTATE_RIGHT_AHEAD)
+                parameters.extend([{} for _ in range(len(const.ROTATE_RIGHT_AHEAD))])
             if cw > right_border:
-                if epoch <= 6:
-                    actions.extend(['MoveLeft', 'MoveLeft'])
-                    parameters.extend([{}, {}])
-                else:
-                    actions.extend(const.ROTATE_LEFT_AHEAD)
-                    parameters.extend([{} for _ in range(len(const.ROTATE_LEFT_AHEAD))])
+                actions.extend(const.ROTATE_LEFT_AHEAD)
+                parameters.extend([{} for _ in range(len(const.ROTATE_LEFT_AHEAD))])
             if res['ymax'] >350:
                 actions.extend(const.ACTION_LOOK_DOWN)
                 parameters.extend([{} for _ in range(len(const.ACTION_LOOK_DOWN))])
         
-        if compute_area(res) >= 3500: 
+        if epoch > 6:#why 6?
             actions.extend(const.PICK_UP_SEQUENCE)
             for act in const.PICK_UP_SEQUENCE:
                 parameters.extend(
@@ -185,14 +232,14 @@ def find_lip(img, i):
     img_blur_r = cv.GaussianBlur(img_gray_r, (3, 3), 0)
     edges_r = cv.Canny(image=img_blur_r, threshold1=20, threshold2=40)
     sobelx_r = cv.Sobel(edges_r, cv.CV_64F, 1, 0, ksize=5)
-    #cv.imwrite('RCrop.png', right_crop)
-    #cv.imwrite('RCanny.png', edges_r)
+    cv.imwrite('RCrop.png', right_crop)
+    cv.imwrite('RCanny.png', edges_r)
 
     img_gray_l = cv.cvtColor(left_crop, cv.COLOR_BGR2GRAY)
     img_blur_l = cv.GaussianBlur(img_gray_l, (3, 3), 0)
     edges_l = cv.Canny(image=img_blur_l, threshold1=20, threshold2=40)
-    #cv.imwrite('LCrop.png', left_crop)
-    #cv.imwrite('LCanny.png', edges_l)
+    cv.imwrite('LCrop.png', left_crop)
+    cv.imwrite('LCanny.png', edges_l)
 
     indices_l = np.where(edges_l != [0])
     # coordinates_l=zip(indices_l[0],indices_l[1])
@@ -220,13 +267,11 @@ def find_lip(img, i):
         else:
             return const.ACTION_PASS, [{}]
 
-def compute_area(res):
-    return (res['ymax'] - res['ymin']) * (res['xmax'] - res['xmin'])
 
 def select_action(output, model):
     #output: output = controller.step(action[idx], **params[idx])
     
-    global epoch
+    global first_action, epoch, first_sighting, second_sighting,second_step
     image = output.image_list[0]
     pixels = list(image.getdata())
     img_pil = Image.new(image.mode, image.size) 
@@ -241,12 +286,14 @@ def select_action(output, model):
     img_array = np.array(img_pil)
     img = cv.cvtColor(img_array, cv.COLOR_RGB2BGR)
     #cv2.cvtColor() method is used to convert an image from one color space to another.
+    if not first_action:
+        img = img[:, 50:] ##why is this needed? 
         
     display_image = copy.deepcopy(img)
     predictions = model(img, size=640)
     cw = int(display_image.shape[1] / 2)
     ch = int(display_image.shape[0] / 2) #is this getting the center coordinate?
-    #cv.rectangle(display_image, (cw - 5, ch - 5), (cw + 5, ch + 5), 255, 2) 
+    cv.rectangle(display_image, (cw - 5, ch - 5), (cw + 5, ch + 5), 255, 2) 
     #cv2.rectangle(image, start_point, end_point, color, thickness)
     actions, parameters, predicted_classes = [], [], []
     loc_result = predictions.pandas().xyxy[0]
@@ -267,18 +314,76 @@ def select_action(output, model):
 #     if const.SPORTS_BALL in predicted_classes:
 #         create_bounding_box(display_image, loc_result, const.NON_AGENT)
 
-    #if const.SPORTS_BALL in predicted_classes:
-    #    const.SCENE_HAS_SOCCER_BALL = True
-    #    create_bounding_box(display_image, loc_result, const.SPORTS_BALL)
+    if const.SPORTS_BALL in predicted_classes:
+        const.SCENE_HAS_SOCCER_BALL = True
+        create_bounding_box(display_image, loc_result, const.SPORTS_BALL)
 
-    #cv.imwrite("moving_ball_scene" + str(epoch) + ".png", display_image)
+    cv.imwrite("moving_ball_scene" + str(epoch) + ".png", display_image)
     epoch = epoch + 1
+    if epoch == 1:
+        return const.ACTION_PASS, [{}]
+    if first_action and const.SPORTS_BALL in predicted_classes:
+        first_action = False
+        second_step=True
+        const.SCENE_HAS_SOCCER_BALL = True
+        
+        for idx, res in loc_result.iterrows():
+            if res['name']==const.SPORTS_BALL:
+                first_sighting = (res['xmin']+res['xmax'])/2
+                print(first_sighting, 'first_sighting')
+                return const.ACTION_PASS, [{}]
+            else:
+                print('ball in predicted class but not found?')
+                return const.ACTION_ROTATE_LEFT, [{}]
+            
+    elif first_action and const.SPORTS_BALL not in predicted_classes:
+        print('first action, ball not in predicted class')
+        return const.ROTATE_LEFT_SEQ, [{} for _ in range(len(const.ROTATE_LEFT_SEQ))]
+    
+    
+    
+    
+    if second_step and const.SPORTS_BALL in predicted_classes:
+        second_step=False
+        for idx, res in loc_result.iterrows():
+            if res['name']==const.SPORTS_BALL:
+                second_sighting = (res['xmin']+res['xmax'])/2
+                
+                if first_sighting < second_sighting:
+                    const.DIRECTION = 'right'
+                    print('epoch=2, ball found, rotating based on ball roll direction')
+                    print(first_sighting, 'first')
+                    print(second_sighting, 'second')
+                    prev_action = 'right'
+                    prev_sighting = second_sighting
+                    return const.ROTATE_RIGHT_SEQ_2, [{} for _ in range(len(const.ROTATE_RIGHT_SEQ_2))]
+                
+                elif first_sighting > second_sighting:
+                    const.DIRECTION = 'left'
+                    print('epoch=2, ball found, rotating based on ball roll direction')
+                    print(first_sighting, 'first')
+                    print(second_sighting, 'second')
+                    prev_action = 'left'
+                    prev_sighting = second_sighting
+                    return const.ROTATE_LEFT_SEQ_2, [{} for _ in range(len(const.ROTATE_LEFT_SEQ_2))]
+                
+                else:
+                    print('ball didnt move?')
+            
+            else:
+                print('ball in predicted class but not found?')
+                return const.ACTION_ROTATE_LEFT, [{}]
 
-    # Here is the beginnig of the useful logic    
-    if const.LAVA in predicted_classes and const.SPORTS_BALL not in predicted_classes:
+    elif second_step and const.SPORTS_BALL not in predicted_classes:
+        print('epoch!=2, ball not in predicted class')
+        return const.ACTION_ROTATE_LEFT, [{}]
+    
+
+        
+    if first_action ==False and second_step==False and const.LAVA in predicted_classes and const.SPORTS_BALL not in predicted_classes:
         print('we wait it out near the lava')
         return find_lip(img,0)
-    elif const.LAVA in predicted_classes and const.SPORTS_BALL in predicted_classes:
+    elif first_action ==False and second_step==False and const.LAVA in predicted_classes and const.SPORTS_BALL in predicted_classes:
         print('epoch>2, moving based on lava')
         actions, parameters = find_lip(img,0)
         for idx, res in loc_result.iterrows():
@@ -295,19 +400,19 @@ def select_action(output, model):
                         )
                     print((res['xmax']-res['xmin'])//2, (res['ymax']-res['ymin'])//2)
                     return actions, parameters
-    elif const.LAVA not in predicted_classes and const.SPORTS_BALL in predicted_classes:
+    elif first_action ==False and second_step==False and const.LAVA not in predicted_classes and const.SPORTS_BALL in predicted_classes:
         print('epoch>2, no lava, navigating to ball')
         actions, parameters = navigate(loc_result, cw, ch, actions, parameters, const.SPORTS_BALL,epoch)
         return actions, parameters
-    elif const.LAVA not in predicted_classes and const.SPORTS_BALL not in predicted_classes:
+    elif first_action ==False and second_step==False and const.LAVA not in predicted_classes and const.SPORTS_BALL not in predicted_classes:
         print('epoch>2, no lava, ball still not in predicted class')
         if const.DIRECTION == 'left':
-            return const.ROTATE_RIGHT_SEQ, [{} for _ in range(len(const.ROTATE_LEFT_SEQ))]
-        elif const.DIRECTION == 'right':
             return const.ROTATE_LEFT_SEQ, [{} for _ in range(len(const.ROTATE_LEFT_SEQ))]
+        elif const.DIRECTION == 'right':
+            return const.ROTATE_RIGHT_SEQ, [{} for _ in range(len(const.ROTATE_LEFT_SEQ))]
         else:
             return const.ROTATE_LEFT_SEQ, [{} for _ in range(len(const.ROTATE_LEFT_SEQ))]
-    elif const.LAVA not in predicted_classes and const.SPORTS_BALL not in predicted_classes:
+    elif first_action ==False and second_step==False and const.LAVA not in predicted_classes and const.SPORTS_BALL not in predicted_classes:
         print('epoch>2, no lava, ball seen but not in predicted class rn')
         return const.ACTION_PASS, [{}]
     else:
@@ -322,64 +427,32 @@ def select_action(output, model):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--scene_path', type=str)
-    parser.add_argument(
-        '--unity_path',
-        type=str,
-        default='/home/ubuntu/unity_app/MCS-AI2-THOR-Unity-App-v0.5.7.x86_64'
-    )
-    args = parser.parse_args()
-    fn = args.scene_path
-    controller = mcs.create_controller(config_file_or_dict='../sample_config.ini', unity_app_file_path=args.unity_path)
+    first_action = True
+    second_step = False
+    first_sighting = ''
+    second_sighting = ''
+#     controller = mcs.create_controller(config_file_or_dict={'metadata': 'oracle'})
+    fn = sys.argv[1]
     if os.path.exists(fn):
         scene_data = mcs.load_scene_json_file(fn)
     
+#     os.chdir('/Users/Nina/opt/anaconda3/envs/myenv/lib/python3.8/site-packages/machine_common_sense/')
+
+#     controller = mcs.create_controller(config_file_or_dict={'metadata': 'oracle'})
+#     scene_data = mcs.load_scene_json_file(glob.glob('./MCS/scenes/baseline_moving_target_prediction_eval_5/*.json')[12])
     output = controller.start_scene(scene_data)
     
 
-    #action = const.INITIAL_ROTATE_RIGHT_SEQ
-    #params = [{} for _ in range(len(action))]
-    #model = torch.hub.load('ultralytics/yolov5', 'custom', path=const.MODEL_WEIGHTS_FILE_PATH_RAMP)
-    #model = torch.hub.load('ultralytics/yolov5', 'custom', path='../models/best_v11.pt')
-    model = torch.hub.load('ultralytics/yolov5', 'custom', path='./best_mt.pt')
-
-    rotate_direction = 0
-    for i in range(12):
-        output = controller.step("RotateRight")
-        output = controller.step("RotateRight")
-        output = controller.step("RotateRight")
-        found, top_left, bottom_right = find_ball(np.array(output.image_list[0]), model)
-        if found:
-            rotate_direction = i
-            if i >= 6:
-                const.DIRECTION = 'right'
-    if rotate_direction >= 6:
-        for _ in range((12 - rotate_direction) // 2):
-            controller.step("RotateLeft")
-            controller.step("RotateLeft")
-            controller.step("RotateLeft")
-    else:
-        for _ in range(rotate_direction // 2):
-            controller.step("RotateRight")
-            controller.step("RotateRight")
-            controller.step("RotateRight")
-        
+    action = const.INITIAL_ROTATE_RIGHT_SEQ
+    params = [{} for _ in range(len(action))]
+    model = torch.hub.load('ultralytics/yolov5', 'custom', path=const.MODEL_WEIGHTS_FILE_PATH_RAMP)
 
     epoch = 0
-    if const.DIRECTION == 'left':
-        action = ['MoveRight', 'MoveRight']
-    else:
-        action = ['MoveLeft', 'MoveLeft']
-    params = [{}, {}]
-    while True:
+    while action != '':
         print("#" * 20, " EPOCH: ", epoch, "#" * 20)
         print("Actions to execute: ", action)
         for idx in range(len(action)):
             output = controller.step(action[idx], **params[idx])
-            if output is None:
-                controller.end_scene()
-                exit()
             if action[idx] == const.ACTION_MOVE_AHEAD[0] and output.return_status == "OBSTRUCTED":
                 print("INFO : Move obstructed by occluder.")
                 const.MOVE_AHEAD_OBSTRUCTED = True
@@ -394,6 +467,8 @@ if __name__ == '__main__':
 
     controller.end_scene()
 
+
+# In[ ]:
 
 
 

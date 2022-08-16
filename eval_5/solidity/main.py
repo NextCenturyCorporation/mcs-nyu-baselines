@@ -48,12 +48,13 @@ if __name__ == '__main__':
     # actions = ['LookDown']*2
     actions = ['Pass']
     params = [{} for _ in range(len(actions))]
-    model = torch.hub.load('ultralytics/yolov5', 'custom', path="./best.pt")
+    model = torch.hub.load('ultralytics/yolov5', 'custom', path="./best4.pt")
 
     epoch = 0
 
     # Continue to select actions until your algorithm decides to stop.
     while actions:
+        print("epoch:", epoch)
         print("actions: ", actions)
         for idx, action in enumerate(actions):
             # print(output.step_number, action, params[idx], lookup, output.return_status, sep=':')

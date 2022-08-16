@@ -37,7 +37,7 @@ INITIAL_ROTATE_RIGHT_SEQ = ['RotateRight','RotateRight','RotateRight','RotateRig
                            'RotateRight','RotateRight','RotateRight','RotateRight','RotateRight','RotateRight',
                            'RotateRight','RotateRight','RotateRight','RotateRight','RotateRight','RotateRight',
                            'RotateRight','RotateRight','RotateRight','RotateRight','RotateRight','RotateRight',
-                           'RotateRight','RotateRight','RotateRight','RotateRight','LookDown']
+                           'RotateRight','RotateRight','RotateRight','RotateRight']
 OCCLUDER_AHEAD_SEQ = [
     'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveRight', 'MoveAhead',
     'MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveLeft', 'MoveLeft', 'MoveLeft', 'MoveLeft', 'RotateLeft', 'RotateLeft',
@@ -72,12 +72,14 @@ ROTATE_LEFT_SEQ_5 = ['RotateLeft','RotateLeft','RotateLeft','RotateLeft','Rotate
 ROTATE_LEFT_SEQ_7 = ['RotateLeft','RotateLeft','RotateLeft','RotateLeft','RotateLeft','RotateLeft','RotateLeft']
 ROTATE_LEFT_SEQ_9 = ['RotateLeft','RotateLeft','RotateLeft','RotateLeft','RotateLeft','RotateLeft','RotateLeft','RotateLeft','RotateLeft']
 ROTATE_LEFT_SEQ_10 = ['RotateLeft','RotateLeft','RotateLeft','RotateLeft','RotateLeft','RotateLeft','RotateLeft','RotateLeft','RotateLeft','RotateLeft']
-ROTATE_RIGHT_SEQ = ['RotateRight','RotateRight','RotateRight','RotateRight']
+#ROTATE_RIGHT_SEQ = ['RotateRight','RotateRight','RotateRight','RotateRight']
+ROTATE_RIGHT_SEQ = ['RotateRight','RotateRight']
 ROTATE_RIGHT_SEQ_3 = ['RotateRight','RotateRight','RotateRight']
 ROTATE_RIGHT_SEQ_5 = ['RotateRight','RotateRight','RotateRight','RotateRight','RotateRight']
 ROTATE_RIGHT_SEQ_9 = ['RotateRight','RotateRight','RotateRight','RotateRight','RotateRight','RotateRight','RotateRight','RotateRight','RotateRight','MoveLeft']
 ROTATE_RIGHT_SEQ_10 = ['RotateRight','RotateRight','RotateRight','RotateRight','RotateRight','RotateRight','RotateRight','RotateRight','RotateRight','RotateRight']
-ROTATE_LEFT_SEQ = ['RotateLeft','RotateLeft','RotateLeft','RotateLeft']
+#ROTATE_LEFT_SEQ = ['RotateLeft','RotateLeft','RotateLeft','RotateLeft']
+ROTATE_LEFT_SEQ = ['RotateLeft','RotateLeft']
 ROTATE_LEFT_SEQ_2 = ['RotateLeft','RotateLeft']
 ROTATE_RIGHT_SEQ_2 = ['RotateRight','RotateRight']
 

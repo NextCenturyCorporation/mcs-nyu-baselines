@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# In[1]:
+
+
 import import_ipynb
-import argparse
 import constant as const
 import copy
 import sys
@@ -42,7 +44,7 @@ def check_for_ball(im, loc_result, cw):
                   max(int(res['xmax'] + const.LEFT_RIGHT_CUSHION), 0)
                   ]
         occ_img = cv.cvtColor(occ_img, cv.COLOR_BGR2GRAY)
-        #cv.imwrite('ROI_{}.png'.format(idx), occ_img)
+        cv.imwrite('ROI_{}.png'.format(idx), occ_img)
         rows, cols = occ_img.shape
         number_of_white_pix = sum(180 <= occ_img[i][j] <= 255 for i in range(rows) for j in range(cols))
         print("number_of_white_pix for idx ", idx, ": ", number_of_white_pix)
@@ -547,14 +549,14 @@ def find_lip(img, i):
     img_blur_r = cv.GaussianBlur(img_gray_r, (3, 3), 0)
     edges_r = cv.Canny(image=img_blur_r, threshold1=20, threshold2=40)
     sobelx_r = cv.Sobel(edges_r, cv.CV_64F, 1, 0, ksize=5)
-    #cv.imwrite('RCrop.png', right_crop)
-    #cv.imwrite('RCanny.png', edges_r)
+    cv.imwrite('RCrop.png', right_crop)
+    cv.imwrite('RCanny.png', edges_r)
 
     img_gray_l = cv.cvtColor(left_crop, cv.COLOR_BGR2GRAY)
     img_blur_l = cv.GaussianBlur(img_gray_l, (3, 3), 0)
     edges_l = cv.Canny(image=img_blur_l, threshold1=20, threshold2=40)
-    #cv.imwrite('LCrop.png', left_crop)
-    #cv.imwrite('LCanny.png', edges_l)
+    cv.imwrite('LCrop.png', left_crop)
+    cv.imwrite('LCanny.png', edges_l)
 
     indices_l = np.where(edges_l != [0])
     
@@ -935,19 +937,10 @@ if __name__ == '__main__':
     first_action = True
     look = 0 
     
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--scene_path', type=str)
-    parser.add_argument(
-        '--unity_path',
-        type=str,
-        default='/home/ubuntu/unity_app/MCS-AI2-THOR-Unity-App-v0.5.7.x86_64'
-    )
-    args = parser.parse_args()
-    fn = args.scene_path
+    fn = sys.argv[1]
     if os.path.exists(fn):
         scene_data = mcs.load_scene_json_file(fn)
 
-    controller = mcs.create_controller(config_file_or_dict='../sample_config.ini', unity_app_file_path=args.unity_path)
     output = controller.start_scene(scene_data)
 
     # _, params = output.action_list[0]
@@ -967,9 +960,6 @@ if __name__ == '__main__':
 #         const.TOOL_OUT_OF_REACH = False
         for idx in range(len(action)):
             output = controller.step(action[idx], **params[idx])
-            if output is None:
-                controller.end_scene()
-                exit()
             if action[idx] == const.ACTION_MOVE_AHEAD[0] and output.return_status == "OBSTRUCTED":
                 print("INFO : Move ahead obstructed by occluder.")
                 const.MOVE_AHEAD_OBSTRUCTED = True
@@ -1028,6 +1018,15 @@ if __name__ == '__main__':
 
 
     controller.end_scene()
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
 
 
 

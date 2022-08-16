@@ -10,8 +10,11 @@ from PIL import Image
 import constants as const
 import machine_common_sense as mcs
 
+ball_x = 300
+ball_y = 200
 
 def check_for_ball(im, loc_result, cw):
+    global first_action
     for idx, res in loc_result.iterrows():
         # print(res['ymin'])
         # print("int(res['ymin'] - const.TOP_BOTTOM_CUSHION): ", int(res['ymin'] - const.TOP_BOTTOM_CUSHION))
@@ -25,11 +28,11 @@ def check_for_ball(im, loc_result, cw):
                   max(int(res['xmax'] + const.LEFT_RIGHT_CUSHION), 0)
                   ]
         occ_img = cv.cvtColor(occ_img, cv.COLOR_BGR2GRAY)
-        cv.imwrite('ROI_{}.png'.format(idx), occ_img)
+        #cv.imwrite('ROI_{}.png'.format(idx), occ_img)
         rows, cols = occ_img.shape
         number_of_white_pix = sum(180 <= occ_img[i][j] <= 255 for i in range(rows) for j in range(cols))
         print("number_of_white_pix for idx ", idx, ": ", number_of_white_pix)
-        if number_of_white_pix > 0:
+        if number_of_white_pix > 0 and first_action:
             const.SCENE_HAS_SOCCER_BALL = True
             if res['xmin'] < cw:
                 return const.INITIAL_MOVE_LEFT_SEQ, [{} for _ in range(len(const.INITIAL_MOVE_LEFT_SEQ))]
@@ -77,7 +80,6 @@ def naviagte(loc_result, cw, ch, actions, parameters, pred_class):
             right_border = res['xmax'] + max(const.LEFT_RIGHT_CUSHION, 0)
             top_border = res['ymin'] - max(const.TOP_BOTTOM_CUSHION, 0)
             bottom_border = res['ymax'] + max(const.TOP_BOTTOM_CUSHION, 0)
-            actions = actions.copy()
             if left_border <= cw <= right_border:
                 actions.extend(const.STICKY_MOVE_AHEAD)
                 parameters.extend([{} for _ in range(len(const.STICKY_MOVE_AHEAD))])
@@ -89,19 +91,19 @@ def naviagte(loc_result, cw, ch, actions, parameters, pred_class):
             if cw > right_border:
                 actions.extend(const.ACTION_MOVE_LEFT)
                 parameters.extend([{} for _ in range(len(const.ACTION_MOVE_LEFT))])
-            if ch < top_border:
-                actions.extend(['LookDown'])
-                parameters.extend([{}])
-            if ch > bottom_border:
-                actions.extend(['LookUp'])
-                parameters.extend([{}])
+            #if ch < top_border:
+            #    actions.extend(['LookDown'])
+            #    parameters.extend([{}])
+            #if ch > bottom_border:
+            #    actions.extend(['LookUp'])
+            #    parameters.extend([{}])
             print(actions)
 
     return actions, parameters
 
 
 def select_action(output, model):
-    global first_action, epoch
+    global first_action, epoch, ball_x, ball_y
     image = output.image_list[0]
     pixels = list(image.getdata())
     img_pil = Image.new(image.mode, image.size)
@@ -132,7 +134,10 @@ def select_action(output, model):
     epoch = epoch + 1
     if first_action and const.SPORTS_BALL in predicted_classes:
         first_action = False
-        return find_ball(loc_result, cw)
+        actions, parameters = find_ball(loc_result, cw)
+        actions.extend(['LookDown', 'LookDown'])
+        parameters.extend([{}, {}])
+        return actions, parameters
 
     if first_action and const.OCCLUDER in predicted_classes and const.SPORTS_BALL not in predicted_classes:
         actions, parameters = check_for_ball(img, loc_result, cw)
@@ -140,48 +145,51 @@ def select_action(output, model):
             actions, parameters = find_bigger_occluder(loc_result, cw)
             const.OCCLUDER_IN_FRONT = True
         first_action = False
+        actions.extend(['LookDown', 'LookDown'])
+        parameters.extend([{}, {}])
         return actions, parameters
 
-    if const.OCCLUDER_IN_FRONT:
+    if const.MOVE_AHEAD_OBSTRUCTED:
+        actions = const.OCCLUDER_AHEAD_SEQ
+        parameters = [{} for _ in range(len(const.OCCLUDER_AHEAD_SEQ))]
+        const.MOVE_AHEAD_OBSTRUCTED = False            
+        const.OCCLUDER_IN_FRONT = False
+
+    elif const.OCCLUDER_IN_FRONT:
+        if epoch > 6:
+            actions.extend(const.PICK_UP_SEQUENCE)
+            for act in const.PICK_UP_SEQUENCE:
+                #parameters.extend([{'objectId': 'target'} if act == 'PickupObject' else {}])
+                parameters.extend([{'objectImageCoordsX': ball_x,'objectImageCoordsY': ball_y} if act == 'PickupObject' else {}])
         if const.OCCLUDER in predicted_classes:
             actions, parameters = naviagte(loc_result, cw, ch, actions, parameters, const.OCCLUDER)
-        elif const.MOVE_AHEAD_OBSTRUCTED:
-            actions = const.OCCLUDER_AHEAD_SEQ
-            parameters = [{} for _ in range(len(const.OCCLUDER_AHEAD_SEQ))]
         else:
             actions = const.STICKY_MOVE_AHEAD
             parameters = [{} for _ in range(len(const.STICKY_MOVE_AHEAD))]
-        if epoch > 6:
-            actions = actions.copy()
-            actions.extend(const.PICK_UP_SEQUENCE)
-            for act in const.PICK_UP_SEQUENCE:
-                parameters.extend([
-                    {"objectImageCoordsX": 300, "objectImageCoordsY": 100}
-                    if act == 'PickupObject' else {}
-                ])
 
     elif const.SCENE_HAS_SOCCER_BALL and const.OCCLUDER in predicted_classes \
             and const.SPORTS_BALL not in predicted_classes:
-        actions, parameters = check_for_ball(img, loc_result, cw)
+        #actions, parameters = check_for_ball(img, loc_result, cw)
+        actions, parameters = ['MoveAhead'] * 5, [{}] * 5 
 
     elif const.SPORTS_BALL in predicted_classes:
-        actions, parameters = naviagte(loc_result, cw, ch, actions, parameters, const.SPORTS_BALL)
         if epoch > 6:
-            actions = actions.copy()
             actions.extend(const.PICK_UP_SEQUENCE)
             for act in const.PICK_UP_SEQUENCE:
+                ball_x = (res['xmax'] + res['xmin']) // 2
+                ball_y = (res['ymax'] + res['ymin']) // 2
                 parameters.extend(
                     [{
-                        "objectImageCoordsX": 300,
-                        "objectImageCoordsY": 100
-                         # 'objectImageCoordsX': (res['xmax'] - res['xmin']) // 2,
-                         # 'objectImageCoordsY': (res['ymax'] - res['ymin']) // 2
+                         #'objectId': 'target'
+                         'objectImageCoordsX': ball_x,
+                         'objectImageCoordsY': ball_y
                      } if act == 'PickupObject' else {}]
                 )
+        actions, parameters = naviagte(loc_result, cw, ch, actions, parameters, const.SPORTS_BALL)
 
     if actions is None or len(actions) == 0:
-        actions = ['MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveAhead', 'LookDown', 'PickupObject']
-        parameters = [{}, {}, {}, {}, {}, {"objectImageCoordsX": 300, "objectImageCoordsY": 100}]
+        actions = ['MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveAhead', 'PickupObject']
+        parameters = [{}, {}, {}, {}, {'objectImageCoordsX': ball_x,'objectImageCoordsY': ball_y}]
 
     return actions, parameters
 

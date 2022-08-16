@@ -5,7 +5,7 @@ from sklearn.cluster import KMeans
 
 import sys
 sys.path.insert(1, '..')
-import constants as const
+import spatial_scene.constants as const
 
 hold_threshold = 0.2
 ball_threshold = 0.5
@@ -56,14 +56,14 @@ def find_lip(img, i):
     img_blur_r = cv.GaussianBlur(img_gray_r, (3, 3), 0)
     # thresold1 and threshold2 are set to high values so that the shadows can be filtered
     edges_r = cv.Canny(image=img_blur_r, threshold1= 60, threshold2= 90)
-    cv.imwrite('RCrop.png', right_crop)
-    cv.imwrite('RCanny.png', edges_r)
+    #cv.imwrite('RCrop.png', right_crop)
+    #cv.imwrite('RCanny.png', edges_r)
 
     img_gray_l = cv.cvtColor(left_crop, cv.COLOR_BGR2GRAY)
     img_blur_l = cv.GaussianBlur(img_gray_l, (3, 3), 0)
     edges_l = cv.Canny(image=img_blur_l, threshold1= 60, threshold2= 90)
-    cv.imwrite('LCrop.png', left_crop)
-    cv.imwrite('LCanny.png', edges_l)
+    #cv.imwrite('LCrop.png', left_crop)
+    #cv.imwrite('LCanny.png', edges_l)
 
     indices_l = np.where(edges_l != [0])
     # coordinates_l=zip(indices_l[0],indices_l[1])
@@ -272,7 +272,7 @@ def prediction_process(predictions):
 
 # Use KMeans algorithm to do segmentation in order to achieve pixel unification, so we can compute the accurate area
 def segmentation(image):
-    cv.imwrite("test2.png", image)
+    #cv.imwrite("test2.png", image)
     data = np.array(image.reshape((image.shape[0] * image.shape[1], image.shape[2])))
     kmeans = KMeans(n_clusters=15, random_state=0).fit(data)
     labels = kmeans.labels_.reshape((image.shape[0], image.shape[1]))
@@ -281,7 +281,7 @@ def segmentation(image):
     for i in range(a):
         for j in range(b):
             final_image[i][j] = kmeans.cluster_centers_[labels[i][j]]
-    cv.imwrite("./image.png", final_image)
+    #cv.imwrite("./image.png", final_image)
  
 def select_actions(output, model):
     global prev_img, ball_region, l_lim, r_lim, ball_backup_region, hold_backup_region
