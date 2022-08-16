@@ -2,10 +2,15 @@
 
 ## Info from NYU
 
-the 8 scenes are in the corresponding folder
+The 8 scenes are in the corresponding folder
+
+Install requirements.txt with `pip install -r requirements.txt`
+
 Arguments passed with argparse and can run like 
-Install requirements.txt with pip install -r requirements.txt
+
+```
 python $task/main.py --scene_path=$scene_path
+```
 
 ## Info from CACI
 
